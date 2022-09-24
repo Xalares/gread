@@ -6,5 +6,15 @@ project('gread', ['c'],
                      'cpp_std=gnu++2a',
                    ],
 )
-gtk_dep = dependency('gtk4')
+
+cc = meson.get_compiler('c')
+gtk_dep = dependency('gtk4', version:'>=4.8.1')
+libadwaita_dep = dependency('libadwaita-1', version:'>=1.2.0')
+m_dep = cc.find_library('m')
+
+gnome = import('gnome')
+
+top_inc = include_directories('.')
+src_inc = join_paths(meson.project_source_root(), 'src')
+
 subdir('src')

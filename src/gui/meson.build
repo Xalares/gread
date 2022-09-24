@@ -1,10 +1,13 @@
-project('project', ['cpp', 'c'],
-          version: '0.1.0',
-    meson_version: '>= 0.59.0',
-  default_options: [ 'warning_level=2',
-                     'werror=false',
-                     'cpp_std=gnu++2a',
-                   ],
-)
-subdir('src')
+gread_incs = include_directories('.')
 
+built_sources += gnome.compile_resources(
+  'gui-resources',
+  'gui.gresource.xml',
+  c_name: 'gui',
+)
+
+sources += files(
+  'gread-application.c',
+  'gread-window.c',
+  'gread-label.c',
+)

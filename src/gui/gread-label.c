@@ -1,4 +1,6 @@
 #include <math.h>
+#include <gtk/gtk.h>
+
 #include "gread-label.h"
 
 struct _GreadLabel {
