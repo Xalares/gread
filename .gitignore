@@ -1,1 +1,8 @@
 /subprojects/blueprint-compiler
+!.gitignore
+GPATH
+GRTAGS
+GTAGS
+.*
+/build
+#*

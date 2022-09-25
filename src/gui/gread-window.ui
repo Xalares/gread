@@ -1,16 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class"GreadWindow" parent="AdwapplicationWindow">
+  <template class="GreadAppWindow" parent="AdwApplicationWindow">
+    <property name="title">Gread</property>
+    <property name="default_width">800</property>
+    <property name="default_height">600</property>
+    <property name="height_request">600</property>
+
     <child>
-      <object class="GtkBox">
+
+      <object class="GtkBox" id="main_box"> 
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkLabel" id="label">
+          <object class="AdwHeaderBar" id="header_bar">
           </object>
         </child>
+       
         <child>
-          <object class="GtkEntry" id="entry">
-          </object>
+        <object class="GtkBox" id="content_box">
+          <property name="orientation">vertical</property>
+          <property name="vexpand">true</property>
+          <property name="homogeneous">true</property>
+          <child>
+            <object class="GreadLabel" id="label">
+            </object>
+          </child>
+          <child>
+            <object class="GtkEntry" id="entry">
+              <property name="visible">false</property>
+            </object>
+          </child>
+          <child>
+            <object class="GtkButton" id="button">
+              <property name="halign">GTK_ALIGN_CENTER</property>
+              <property name="valign">GTK_ALIGN_CENTER</property>
+              <property name="label">Start</property>
+              <property name="width-request">200</property>
+              <property name="height-request">75</property>
+            </object>
+          </child>
+        </object>
         </child>
       </object>
     </child>
