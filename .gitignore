@@ -1,4 +1,4 @@
-/subprojects/blueprint-compiler
+/subprojects
 !.gitignore
 GPATH
 GRTAGS
