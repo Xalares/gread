@@ -5,7 +5,7 @@
 
 G_BEGIN_DECLS
 
-#define GREAD_TYPE_APPLICATION (gread_application_get_type())
+#define GREAD_APPLICATION_TYPE (gread_application_get_type())
 G_DECLARE_FINAL_TYPE (GreadApplication, gread_application, GREAD, APPLICATION, AdwApplication)
 
 GreadApplication* gread_application_new(void);

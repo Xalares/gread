@@ -6,8 +6,8 @@
 struct _GreadLabel {
   GtkWidget parent;
   GtkLabel * label;
-  guint value;
-  guint digits;
+  //guint value;
+  //guint digits;
 };
 
 G_DEFINE_TYPE (GreadLabel, gread_label, GTK_TYPE_WIDGET)

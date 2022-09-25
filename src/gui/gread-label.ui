@@ -1,3 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
+  <template class="GreadLabel" parent="GtkWidget">
+    <child>
+      <object class="GtkLabel" id="label">Prêt ?
+      </object>
+    </child>
+    <style>
+      <class name="label"/>
+    </style>
+  </template>
 </interface>
