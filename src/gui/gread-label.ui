@@ -3,12 +3,12 @@
   <template class="GreadLabel" parent="GtkWidget">
     <child>
       <object class="GtkLabel" id="label">
+        <style>
+           <class name="label"/>
+        </style>
         <property name="visible">true</property>
         <property name="label">Prêt ?</property>
       </object>
     </child>
-    <style>
-      <class name="label"/>
-    </style>
   </template>
 </interface>

@@ -16,18 +16,19 @@ G_DEFINE_TYPE (GreadAppWindow, gread_app_window, ADW_TYPE_APPLICATION_WINDOW)
 
 static void
 gread_app_window_dispose(GObject *object){
+  GreadAppWindow *self = GREAD_APP_WINDOW(object);
+  gtk_widget_unparent(GTK_WIDGET(self->label));
   G_OBJECT_CLASS(gread_app_window_parent_class)->dispose(object);
+}
+
+//callbacks
+static void
+on_start(GreadAppWindow *win){
+  gread_label_roll(win->label);
 }
 
 static void
 gread_app_window_finalize(GObject *object){
-  GreadAppWindow *self = GREAD_APP_WINDOW(object);
-  g_clear_object(&self->main_box);
-  g_clear_object(&self->content_box);
-  g_clear_object(&self->header_bar);
-  g_clear_object(&self->entry);
-  g_clear_object(&self->button);
-  g_clear_object(&self->label);
   G_OBJECT_CLASS(gread_app_window_parent_class)->finalize(object);
 }
 
@@ -42,18 +43,19 @@ gread_app_window_class_init(GreadAppWindowClass *klass){
   gtk_widget_class_set_template_from_resource(GTK_WIDGET_CLASS(klass),
                                               "/org/gnome/gread/gui/gread-window.ui");
 
-  gtk_widget_class_bind_template_child(GTK_WIDGET_CLASS(klass), GreadAppWindow, main_box);
-  gtk_widget_class_bind_template_child(GTK_WIDGET_CLASS(klass), GreadAppWindow, header_bar);
-  gtk_widget_class_bind_template_child(GTK_WIDGET_CLASS(klass), GreadAppWindow, content_box);
-  gtk_widget_class_bind_template_child(GTK_WIDGET_CLASS(klass), GreadAppWindow, label);
-  gtk_widget_class_bind_template_child(GTK_WIDGET_CLASS(klass), GreadAppWindow, entry);
-  gtk_widget_class_bind_template_child(GTK_WIDGET_CLASS(klass), GreadAppWindow, button);
+  gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, main_box);
+  gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, header_bar);
+  gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, content_box);
+  gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, label);
+  gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, entry);
+  gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, button);
 }
 
 static void
 gread_app_window_init(GreadAppWindow *win){
   g_type_ensure(GREAD_LABEL_TYPE);
   win->label = g_object_new(GREAD_LABEL_TYPE, NULL);
+  g_signal_connect_swapped(win->button, "clicked", G_CALLBACK(on_start), win);
   gtk_widget_init_template(GTK_WIDGET(win));
 }
 
