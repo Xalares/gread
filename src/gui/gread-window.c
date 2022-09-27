@@ -15,7 +15,24 @@ struct _GreadAppWindow {
 G_DEFINE_TYPE (GreadAppWindow, gread_app_window, ADW_TYPE_APPLICATION_WINDOW)
 
 static void
+gread_app_window_dispose(GObject *object){
+  G_OBJECT_CLASS(gread_app_window_parent_class)->dispose(object);
+}
+
+static void
+gread_app_window_finalize(GObject *object){
+  GreadAppWindow *self = GREAD_APP_WINDOW(object);
+  g_clear_object(&self->label);
+  G_OBJECT_CLASS(gread_app_window_parent_class)->finalize(object);
+}
+
+static void
 gread_app_window_class_init(GreadAppWindowClass *klass){
+  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS(klass);
+  GObjectClass *object_class = G_OBJECT_CLASS(klass);
+
+  object_class->finalize = gread_app_window_finalize;
+  object_class->dispose = gread_app_window_dispose;
 
   gtk_widget_class_set_template_from_resource(GTK_WIDGET_CLASS(klass),
                                               "/org/gnome/gread/gui/gread-window.ui");
@@ -31,6 +48,7 @@ gread_app_window_class_init(GreadAppWindowClass *klass){
 static void
 gread_app_window_init(GreadAppWindow *win){
   g_type_ensure(GREAD_LABEL_TYPE);
+  win->label = g_object_new(GREAD_LABEL_TYPE, NULL);
   gtk_widget_init_template(GTK_WIDGET(win));
 }
 

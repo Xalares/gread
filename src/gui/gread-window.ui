@@ -22,6 +22,7 @@
           <property name="homogeneous">true</property>
           <child>
             <object class="GreadLabel" id="label">
+              <property name="visible">true</property>
             </object>
           </child>
           <child>

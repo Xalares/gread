@@ -2,7 +2,9 @@
 <interface>
   <template class="GreadLabel" parent="GtkWidget">
     <child>
-      <object class="GtkLabel" id="label">Prêt ?
+      <object class="GtkLabel" id="label">
+        <property name="visible">true</property>
+        <property name="label">Prêt ?</property>
       </object>
     </child>
     <style>
