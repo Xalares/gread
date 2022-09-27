@@ -22,6 +22,11 @@ gread_app_window_dispose(GObject *object){
 static void
 gread_app_window_finalize(GObject *object){
   GreadAppWindow *self = GREAD_APP_WINDOW(object);
+  g_clear_object(&self->main_box);
+  g_clear_object(&self->content_box);
+  g_clear_object(&self->header_bar);
+  g_clear_object(&self->entry);
+  g_clear_object(&self->button);
   g_clear_object(&self->label);
   G_OBJECT_CLASS(gread_app_window_parent_class)->finalize(object);
 }
