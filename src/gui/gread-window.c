@@ -54,9 +54,9 @@ gread_app_window_class_init(GreadAppWindowClass *klass){
 static void
 gread_app_window_init(GreadAppWindow *win){
   g_type_ensure(GREAD_LABEL_TYPE);
-  win->label = g_object_new(GREAD_LABEL_TYPE, NULL);
-  g_signal_connect_swapped(win->button, "clicked", G_CALLBACK(on_start), win);
+  //win->label = g_object_new(GREAD_LABEL_TYPE, NULL);
   gtk_widget_init_template(GTK_WIDGET(win));
+  g_signal_connect_swapped(win->button, "clicked", G_CALLBACK(gread_label_roll), win->label);
 }
 
 GreadAppWindow *

@@ -15,7 +15,7 @@ G_DEFINE_TYPE (GreadLabel, gread_label, GTK_TYPE_WIDGET)
 void
 gread_label_roll(GreadLabel *self){
   guint zeros = (unsigned int) pow(10.0,self->digits-1);
-  self->value = rand() % 9 * (unsigned int) pow(10.0,zeros) + zeros;
+  self->value = rand() % (unsigned int) (9 * zeros) + zeros;
   char text[self->digits];
   sprintf(text, "%d", self->value);
   gtk_label_set_text(self->label, text);
