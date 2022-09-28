@@ -7,7 +7,6 @@
            <class name="label"/>
         </style>
         <property name="visible">true</property>
-        <property name="label">Prêt ?</property>
       </object>
     </child>
   </template>
