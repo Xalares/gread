@@ -1,16 +1,17 @@
 #include <math.h>
 #include <gtk/gtk.h>
+#include <adwaita.h>
 
 #include "gread-label.h"
 
 struct _GreadLabel {
-  GtkWidget parent;
+  AdwBin parent;
   GtkLabel * label;
   guint value;
   guint digits;
 };
 
-G_DEFINE_TYPE (GreadLabel, gread_label, GTK_TYPE_WIDGET)
+G_DEFINE_TYPE (GreadLabel, gread_label, ADW_TYPE_BIN)
 
 void
 gread_label_roll(GreadLabel *self){
@@ -49,6 +50,6 @@ gread_label_class_init(GreadLabelClass *klass){
 
 static void
 gread_label_init(GreadLabel *self){
-  self->digits = 3;
+  self->digits = 1;
   gtk_widget_init_template(GTK_WIDGET(self));
 }

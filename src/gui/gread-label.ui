@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="GreadLabel" parent="GtkWidget">
+  <template class="GreadLabel" parent="AdwBin">
     <child>
       <object class="GtkLabel" id="label">
         <style>

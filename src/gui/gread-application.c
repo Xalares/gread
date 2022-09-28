@@ -27,7 +27,7 @@ gread_application_init(GreadApplication *app){
 
 GreadApplication * gread_application_new(void){
   return g_object_new(GREAD_APPLICATION_TYPE,
-                      "application-id", "org.gtk.greadapp",
+                      "application-id", "org.gnome.gread",
                       "flags", G_APPLICATION_HANDLES_OPEN,
                       NULL);
 }
