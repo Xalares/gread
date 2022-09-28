@@ -110,6 +110,7 @@ gread_label_class_init(GreadLabelClass *klass){
                         "Default text to display.",
                         "Prêt ?",
                         G_PARAM_READWRITE);
+
   object_class->dispose = gread_label_dispose;
   object_class->finalize = gread_label_finalize;
   object_class->set_property = gread_label_set_property;
@@ -125,5 +126,13 @@ gread_label_class_init(GreadLabelClass *klass){
 
 static void
 gread_label_init(GreadLabel *self){
+  GValue digits = G_VALUE_INIT;
+
+  g_value_init(&digits, G_TYPE_UINT);
+
+  g_value_set_uint(&digits, 2);
+
+  g_object_set_property(G_OBJECT(self), "digits", &digits);
   gtk_widget_init_template(GTK_WIDGET(self));
+  gtk_label_set_text(self->label, "Prêt ?");
 }
