@@ -7,10 +7,13 @@ struct _GreadAppWindow {
   AdwApplicationWindow parent;
   GtkWidget *main_box;
   GtkWidget *content_box;
+  GtkWidget *bottom_box;
   AdwHeaderBar *header_bar;
   GreadLabel *label;
   GreadNumberEntry *entry;
-  GtkButton *button;
+  GtkButton *button_start;
+  GtkButton *button_next;
+  gboolean start;
 };
 
 G_DEFINE_TYPE (GreadAppWindow, gread_app_window, ADW_TYPE_APPLICATION_WINDOW)
@@ -25,7 +28,17 @@ gread_app_window_dispose(GObject *object){
 //callbacks
 static void
 on_start(GreadAppWindow *win){
-  gread_label_roll(win->label);
+
+  if(!win->start){
+    gread_label_roll(win->label);
+    gtk_widget_set_visible(GTK_WIDGET(win->button_next), true);
+    gtk_button_set_label(win->button_start, "Stop");
+    win->start = true;
+  }else{
+    gtk_button_set_label(win->button_start,"Start");
+    gtk_widget_set_visible(GTK_WIDGET(win->button_next), false);
+    win->start = false;
+}
 }
 
 static void
@@ -47,17 +60,20 @@ gread_app_window_class_init(GreadAppWindowClass *klass){
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, main_box);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, header_bar);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, content_box);
+  gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, bottom_box);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, label);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, entry);
-  gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, button);
+  gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, button_start);
+  gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, button_next);
 }
 
 static void
 gread_app_window_init(GreadAppWindow *win){
+  win->start = false;
   g_type_ensure(GREAD_LABEL_TYPE);
   //win->label = g_object_new(GREAD_LABEL_TYPE, NULL);
   gtk_widget_init_template(GTK_WIDGET(win));
-  g_signal_connect_swapped(win->button, "clicked", G_CALLBACK(gread_label_roll), win->label);
+  g_signal_connect_swapped(win->button_start, "clicked", G_CALLBACK(on_start), win);
 }
 
 GreadAppWindow *

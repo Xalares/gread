@@ -31,12 +31,28 @@
             </object>
           </child>
           <child>
-            <object class="GtkButton" id="button">
-              <property name="halign">GTK_ALIGN_CENTER</property>
-              <property name="valign">GTK_ALIGN_CENTER</property>
-              <property name="label">Start</property>
-              <property name="width-request">200</property>
-              <property name="height-request">75</property>
+            <object class="GtkBox" id="bottom_box">
+              <property name="orientation">horizontal</property>
+              <property name="homogeneous">true</property>
+              <child>
+                <object class="GtkButton" id="button_next">
+                  <property name="visible">false</property>
+                  <property name="halign">GTK_ALIGN_CENTER</property>
+                  <property name="valign">GTK_ALIGN_CENTER</property>
+                  <property name="label">Next</property>
+                  <property name="width-request">200</property>
+                  <property name="height-request">75</property>
+                </object>
+              </child>
+              <child>
+                <object class="GtkButton" id="button_start">
+                  <property name="halign">GTK_ALIGN_CENTER</property>
+                  <property name="valign">GTK_ALIGN_CENTER</property>
+                  <property name="label">Start</property>
+                  <property name="width-request">200</property>
+                  <property name="height-request">75</property>
+                </object>
+              </child>
             </object>
           </child>
         </object>
