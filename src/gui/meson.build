@@ -10,4 +10,5 @@ sources += files(
   'gread-application.c',
   'gread-window.c',
   'gread-label.c',
+  'gread-number-entry.c',
 )

@@ -5,19 +5,19 @@
 
 struct _GreadNumberEntry {
   GtkWidget parent;
-  GtkEntry *entry
+  GtkEntry *entry;
   guint value;
 };
 
 G_DEFINE_TYPE (GreadNumberEntry, gread_number_entry, ADW_TYPE_BIN)
 
 static void
-gread_number_entry_class_init(GreadNumberEntry *klass){
+gread_number_entry_class_init(GreadNumberEntryClass *klass){
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS(klass);
   GObjectClass *object_class = G_OBJECT_CLASS(klass);
 }
 
 static void
 gread_number_entry_init(GreadNumberEntry *self){
-
+  //g_signal_connect(instance, detailed_signal, c_handler, data)
 }
