@@ -1,6 +1,7 @@
 #include <gtk/gtk.h>
 #include "gread-label.h"
 #include "gread-window.h"
+#include "gread-number-entry.h"
 
 struct _GreadAppWindow {
   AdwApplicationWindow parent;
@@ -8,7 +9,7 @@ struct _GreadAppWindow {
   GtkWidget *content_box;
   AdwHeaderBar *header_bar;
   GreadLabel *label;
-  GtkEntry *entry;
+  GreadNumberEntry *entry;
   GtkButton *button;
 };
 
