@@ -13,6 +13,7 @@ struct _GreadAppWindow {
   GreadNumberEntry *entry;
   GtkButton *button_start;
   GtkButton *button_next;
+  guint interval;
   gboolean start;
 };
 
@@ -25,20 +26,44 @@ gread_app_window_dispose(GObject *object){
   G_OBJECT_CLASS(gread_app_window_parent_class)->dispose(object);
 }
 
+static void timeout(GreadAppWindow *self){
+  gtk_widget_set_visible(GTK_WIDGET(self->label), false);
+  gtk_widget_set_visible(GTK_WIDGET(self->entry), true);
+}
+
 //callbacks
 static void
-on_start(GreadAppWindow *win){
-
+start(GreadAppWindow *win){
   if(!win->start){
     gread_label_roll(win->label);
     gtk_widget_set_visible(GTK_WIDGET(win->button_next), true);
     gtk_button_set_label(win->button_start, "Stop");
+    g_timeout_add_once(win->interval, timeout, win);
     win->start = true;
   }else{
     gtk_button_set_label(win->button_start,"Start");
+
+    if(gtk_widget_is_visible(GTK_WIDGET(win->entry))){
+      gtk_widget_set_visible(GTK_WIDGET(win->entry), false);
+    }
+
+    if(!gtk_widget_is_visible(GTK_WIDGET(win->label))){
+      gtk_widget_set_visible(GTK_WIDGET(win->label), true);
+    }
+    gread_label_set_text(win->label, "Prêt ?");
     gtk_widget_set_visible(GTK_WIDGET(win->button_next), false);
     win->start = false;
+  }
 }
+
+static void
+next(GreadAppWindow *self){
+  if(gtk_widget_is_visible(GTK_WIDGET(self->entry))){
+    gtk_widget_set_visible(GTK_WIDGET(self->entry), false);
+  }
+  gread_label_roll(self->label);
+  gtk_widget_set_visible(GTK_WIDGET(self->label), true);
+  g_timeout_add_once(self->interval, timeout, self);
 }
 
 static void
@@ -68,12 +93,14 @@ gread_app_window_class_init(GreadAppWindowClass *klass){
 }
 
 static void
-gread_app_window_init(GreadAppWindow *win){
-  win->start = false;
+gread_app_window_init(GreadAppWindow *self){
+  self->start = false;
   g_type_ensure(GREAD_LABEL_TYPE);
   //win->label = g_object_new(GREAD_LABEL_TYPE, NULL);
-  gtk_widget_init_template(GTK_WIDGET(win));
-  g_signal_connect_swapped(win->button_start, "clicked", G_CALLBACK(on_start), win);
+  self->interval = 500;
+  gtk_widget_init_template(GTK_WIDGET(self));
+  g_signal_connect_swapped(self->button_start, "clicked", G_CALLBACK(start), self);
+  g_signal_connect_swapped(self->button_next, "clicked", G_CALLBACK(next), self);
 }
 
 GreadAppWindow *

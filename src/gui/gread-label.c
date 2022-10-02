@@ -30,6 +30,16 @@ gread_label_roll(GreadLabel *self){
   gtk_label_set_text(self->label, text);
 }
 
+void
+gread_label_set_text(GreadLabel *self, char * str){
+  gtk_label_set_text(self->label, str);
+}
+
+char *
+gread_label_get_text(GreadLabel *self){
+  return gtk_label_get_text(self->label);
+}
+
 static void
 gread_label_set_property(GObject *object, guint property_id,
                          const GValue *value, GParamSpec *pspec){
@@ -80,7 +90,8 @@ static void
 gread_label_dispose(GObject *object){
   GreadLabel *self;
   self = GREAD_LABEL(object);
-  gtk_widget_unparent(GTK_WIDGET(self->label));
+  GtkWidget * widget = GTK_WIDGET(self->label);
+  g_clear_pointer(&widget, gtk_widget_unparent);
   G_OBJECT_CLASS(gread_label_parent_class)->dispose(object);
 }
 
