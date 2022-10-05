@@ -1,3 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
+  <template class="GreadNumberEntry" parent="AdwBin">
+    <child>
+      <object class="GtkEntry" id="entry">
+        <property name="halign">GTK_ALIGN_CENTER</property>
+        <property name="valign">GTK_ALIGN_CENTER</property>
+        <style>
+           <class name="label"/>
+        </style>
+      </object>
+    </child>
+  </template>
 </interface>

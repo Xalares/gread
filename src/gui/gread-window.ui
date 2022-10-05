@@ -26,7 +26,7 @@
             </object>
           </child>
           <child>
-            <object class="GtkEntry" id="entry">
+            <object class="GreadNumberEntry" id="number_entry">
               <property name="visible">false</property>
             </object>
           </child>

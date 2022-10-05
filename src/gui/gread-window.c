@@ -10,7 +10,7 @@ struct _GreadAppWindow {
   GtkWidget *bottom_box;
   AdwHeaderBar *header_bar;
   GreadLabel *label;
-  GreadNumberEntry *entry;
+  GreadNumberEntry *number_entry;
   GtkButton *button_start;
   GtkButton *button_next;
   guint interval;
@@ -28,7 +28,7 @@ gread_app_window_dispose(GObject *object){
 
 static void timeout(GreadAppWindow *self){
   gtk_widget_set_visible(GTK_WIDGET(self->label), false);
-  gtk_widget_set_visible(GTK_WIDGET(self->entry), true);
+  gtk_widget_set_visible(GTK_WIDGET(self->number_entry), true);
 }
 
 //callbacks
@@ -43,8 +43,8 @@ start(GreadAppWindow *win){
   }else{
     gtk_button_set_label(win->button_start,"Start");
 
-    if(gtk_widget_is_visible(GTK_WIDGET(win->entry))){
-      gtk_widget_set_visible(GTK_WIDGET(win->entry), false);
+    if(gtk_widget_is_visible(GTK_WIDGET(win->number_entry))){
+      gtk_widget_set_visible(GTK_WIDGET(win->number_entry), false);
     }
 
     if(!gtk_widget_is_visible(GTK_WIDGET(win->label))){
@@ -58,8 +58,8 @@ start(GreadAppWindow *win){
 
 static void
 next(GreadAppWindow *self){
-  if(gtk_widget_is_visible(GTK_WIDGET(self->entry))){
-    gtk_widget_set_visible(GTK_WIDGET(self->entry), false);
+  if(gtk_widget_is_visible(GTK_WIDGET(self->number_entry))){
+    gtk_widget_set_visible(GTK_WIDGET(self->number_entry), false);
   }
   gread_label_roll(self->label);
   gtk_widget_set_visible(GTK_WIDGET(self->label), true);
@@ -87,7 +87,7 @@ gread_app_window_class_init(GreadAppWindowClass *klass){
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, content_box);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, bottom_box);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, label);
-  gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, entry);
+  gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, number_entry);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, button_start);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, button_next);
 }
@@ -96,6 +96,7 @@ static void
 gread_app_window_init(GreadAppWindow *self){
   self->start = false;
   g_type_ensure(GREAD_LABEL_TYPE);
+  g_type_ensure(GREAD_NUMBER_ENTRY_TYPE);
   //win->label = g_object_new(GREAD_LABEL_TYPE, NULL);
   self->interval = 500;
   gtk_widget_init_template(GTK_WIDGET(self));
