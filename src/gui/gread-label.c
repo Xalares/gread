@@ -83,20 +83,18 @@ gread_label_get_property(GObject *object, guint property_id,
     break;
 
   }
-
 }
 
 static void
 gread_label_dispose(GObject *object){
-  GreadLabel *self;
-  self = GREAD_LABEL(object);
-  GtkWidget * widget = GTK_WIDGET(self->label);
-  g_clear_pointer(&widget, gtk_widget_unparent);
   G_OBJECT_CLASS(gread_label_parent_class)->dispose(object);
 }
 
 static void
 gread_label_finalize(GObject *object){
+  GreadLabel *self;
+  self = GREAD_LABEL(object);
+  g_clear_object(&self->label);
   G_OBJECT_CLASS(gread_label_parent_class)->finalize (object);
 }
 

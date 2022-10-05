@@ -19,13 +19,6 @@ struct _GreadAppWindow {
 
 G_DEFINE_TYPE (GreadAppWindow, gread_app_window, ADW_TYPE_APPLICATION_WINDOW)
 
-static void
-gread_app_window_dispose(GObject *object){
-  GreadAppWindow *self = GREAD_APP_WINDOW(object);
-  gtk_widget_unparent(GTK_WIDGET(self->label));
-  G_OBJECT_CLASS(gread_app_window_parent_class)->dispose(object);
-}
-
 static void timeout(GreadAppWindow *self){
   gtk_widget_set_visible(GTK_WIDGET(self->label), false);
   gtk_widget_set_visible(GTK_WIDGET(self->number_entry), true);
@@ -64,6 +57,14 @@ next(GreadAppWindow *self){
   gread_label_roll(self->label);
   gtk_widget_set_visible(GTK_WIDGET(self->label), true);
   g_timeout_add_once(self->interval, timeout, self);
+}
+
+static void
+gread_app_window_dispose(GObject *object){
+  GreadAppWindow *self = GREAD_APP_WINDOW(object);
+  gtk_widget_unparent(GTK_WIDGET(self->label));
+  gtk_widget_unparent(GTK_WIDGET(self->number_entry));
+  G_OBJECT_CLASS(gread_app_window_parent_class)->dispose(object);
 }
 
 static void
