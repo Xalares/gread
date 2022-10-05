@@ -11,6 +11,7 @@
 
 /subprojects
 !.gitignore
+*.txt
 GPATH
 GRTAGS
 GTAGS

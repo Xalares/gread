@@ -29,13 +29,18 @@ digit_delete(GtkEditable *edit, gint start_pos,
              gint end_pos, gpointer data){
 
              }*/
+
 static void
-gread_number_dispose(GObject *object){
+gread_number_entry_dispose(GObject *object){
+  GreadNumberEntry *self;
+  self = GREAD_NUMBER_ENTRY(object);
+  GtkWidget *widget = GTK_WIDGET(self->entry);
+  g_clear_pointer(&widget, gtk_widget_unparent);
   G_OBJECT_CLASS(gread_number_entry_parent_class)->dispose(object);
 }
 
 static void
-gread_number_finalize(GObject *object){
+gread_number_entry_finalize(GObject *object){
   G_OBJECT_CLASS(gread_number_entry_parent_class)->finalize(object);
 }
 
@@ -43,6 +48,9 @@ static void
 gread_number_entry_class_init(GreadNumberEntryClass *klass){
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS(klass);
   GObjectClass *object_class = G_OBJECT_CLASS(klass);
+
+  object_class->dispose = gread_number_entry_dispose;
+  object_class->finalize = gread_number_entry_finalize;
 
   gtk_widget_class_set_template_from_resource(widget_class,
                                               "/org/gnome/gread/gui/gread-number-entry.ui");
