@@ -38,4 +38,6 @@ libgread_dep = declare_dependency(
 executable(meson.project_name(),
            files('main.c'),
            dependencies: libgread_dep,
+           install: true,
+           install_dir: meson.project_source_root(),
           )

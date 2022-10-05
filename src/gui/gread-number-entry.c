@@ -29,6 +29,15 @@ digit_delete(GtkEditable *edit, gint start_pos,
              gint end_pos, gpointer data){
 
              }*/
+static void
+gread_number_dispose(GObject *object){
+  G_OBJECT_CLASS(gread_number_entry_parent_class)->dispose(object);
+}
+
+static void
+gread_number_finalize(GObject *object){
+  G_OBJECT_CLASS(gread_number_entry_parent_class)->finalize(object);
+}
 
 static void
 gread_number_entry_class_init(GreadNumberEntryClass *klass){
@@ -43,6 +52,6 @@ gread_number_entry_class_init(GreadNumberEntryClass *klass){
 
 static void
 gread_number_entry_init(GreadNumberEntry *self){
-  g_signal_connect(self->entry, "insert-text", G_CALLBACK(digit_insert), NULL);
+  //g_signal_connect_swapped(self->entry, "insert-text", G_CALLBACK(digit_insert), NULL);
   gtk_widget_init_template(GTK_WIDGET(self));
 }
