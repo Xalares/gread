@@ -35,7 +35,7 @@ gread_label_set_text(GreadLabel *self, char * str){
   gtk_label_set_text(self->label, str);
 }
 
-char *
+const char *
 gread_label_get_text(GreadLabel *self){
   return gtk_label_get_text(self->label);
 }
@@ -87,14 +87,14 @@ gread_label_get_property(GObject *object, guint property_id,
 
 static void
 gread_label_dispose(GObject *object){
+  GreadLabel *self;
+  self = GREAD_LABEL(object);
+  gtk_widget_unparent (GTK_WIDGET(self));
   G_OBJECT_CLASS(gread_label_parent_class)->dispose(object);
 }
 
 static void
 gread_label_finalize(GObject *object){
-  GreadLabel *self;
-  self = GREAD_LABEL(object);
-  g_clear_object(&self->label);
   G_OBJECT_CLASS(gread_label_parent_class)->finalize (object);
 }
 

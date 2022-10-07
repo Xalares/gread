@@ -32,14 +32,14 @@ digit_delete(GtkEditable *edit, gint start_pos,
 
 static void
 gread_number_entry_dispose(GObject *object){
+    GreadNumberEntry *self;
+  self = GREAD_NUMBER_ENTRY(object);
+  gtk_widget_unparent (GTK_WIDGET (self));
   G_OBJECT_CLASS(gread_number_entry_parent_class)->dispose(object);
 }
 
 static void
 gread_number_entry_finalize(GObject *object){
-  GreadNumberEntry *self;
-  self = GREAD_NUMBER_ENTRY(object);
-  g_clear_object(&self->entry);
   G_OBJECT_CLASS(gread_number_entry_parent_class)->finalize(object);
 }
 

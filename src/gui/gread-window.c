@@ -64,6 +64,7 @@ gread_app_window_dispose(GObject *object){
   GreadAppWindow *self = GREAD_APP_WINDOW(object);
   gtk_widget_unparent(GTK_WIDGET(self->label));
   gtk_widget_unparent(GTK_WIDGET(self->number_entry));
+
   G_OBJECT_CLASS(gread_app_window_parent_class)->dispose(object);
 }
 

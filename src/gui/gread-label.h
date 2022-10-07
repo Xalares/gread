@@ -10,6 +10,6 @@ void gread_label_roll(GreadLabel *label);
 
 void gread_label_set_text(GreadLabel *label, char *str);
 
-char * gread_label_get_text(GreadLabel *label);
+const char * gread_label_get_text(GreadLabel *label);
 
 G_END_DECLS
