@@ -6,22 +6,21 @@
 struct _GreadNumberEntry {
   AdwBin parent;
   GtkEntry *entry;
+  GtkEntryBuffer *entry_buffer;
   guint value;
 };
 
 G_DEFINE_TYPE (GreadNumberEntry, gread_number_entry, ADW_TYPE_BIN)
 
+void
+gread_number_entry_clear(GreadNumberEntry *self){
+  gtk_entry_buffer_delete_text(self->entry_buffer, 0, -1);
+}
+
 static void
-digit_insert(GtkEditable *edit, gchar *new_text,
-             gint new_length, gpointer position, gpointer data){
-
-  (void)new_text; (void)new_length; (void)position; (void)data;
-
-  GtkEntryBuffer *buffer = gtk_entry_get_buffer(GTK_ENTRY(edit));
-  gchar *content = gtk_entry_buffer_get_text(buffer);
-  gtk_entry_buffer_set_text(buffer, "y", -1);
-  gtk_entry_set_buffer(GTK_ENTRY(edit), buffer);
-  g_free(content);
+digit_insert(GreadNumberEntry *self){
+  gtk_entry_buffer_set_text(self->entry_buffer, "y", 1);
+  gtk_entry_set_buffer(self->entry_buffer, self->entry_buffer);
 }
 
 /*static void
@@ -59,6 +58,7 @@ gread_number_entry_class_init(GreadNumberEntryClass *klass){
 
 static void
 gread_number_entry_init(GreadNumberEntry *self){
-  //g_signal_connect_swapped(self->entry, "insert-text", G_CALLBACK(digit_insert), NULL);
   gtk_widget_init_template(GTK_WIDGET(self));
+  self->entry_buffer = gtk_entry_get_buffer(self->entry);
+  g_signal_connect_swapped(self->entry, "insert-text", G_CALLBACK(digit_insert), self);
 }

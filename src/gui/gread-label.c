@@ -40,6 +40,21 @@ gread_label_get_text(GreadLabel *self){
   return gtk_label_get_text(self->label);
 }
 
+guint
+gread_label_get_value(GreadLabel *self){
+  return self->value;
+}
+
+guint
+gread_label_get_digits(GreadLabel *self){
+  return self->digits;
+}
+
+void
+gread_label_set_digits(GreadLabel *self, guint digits){
+  self->digits = digits;
+}
+
 static void
 gread_label_set_property(GObject *object, guint property_id,
                          const GValue *value, GParamSpec *pspec){

@@ -37,6 +37,7 @@ start(GreadAppWindow *win){
     gtk_button_set_label(win->button_start,"Start");
 
     if(gtk_widget_is_visible(GTK_WIDGET(win->number_entry))){
+      gread_number_entry_clear(win->number_entry);
       gtk_widget_set_visible(GTK_WIDGET(win->number_entry), false);
     }
 
@@ -52,6 +53,7 @@ start(GreadAppWindow *win){
 static void
 next(GreadAppWindow *self){
   if(gtk_widget_is_visible(GTK_WIDGET(self->number_entry))){
+    gread_number_entry_clear(self->number_entry);
     gtk_widget_set_visible(GTK_WIDGET(self->number_entry), false);
   }
   gread_label_roll(self->label);

@@ -6,4 +6,6 @@ G_BEGIN_DECLS
 
 G_DECLARE_FINAL_TYPE (GreadNumberEntry, gread_number_entry, GREAD, NUMBER_ENTRY, GtkWidget)
 
+void gread_number_entry_clear(GreadNumberEntry *self);
+
 G_END_DECLS
