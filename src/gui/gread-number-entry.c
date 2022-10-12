@@ -16,6 +16,8 @@ typedef enum {
   N_PROPERTIES
 } GreadNumberEntryProperty;
 
+static GParamSpec *obj_properties[N_PROPERTIES] = {NULL, };
+
 G_DEFINE_TYPE (GreadNumberEntry, gread_number_entry, ADW_TYPE_BIN)
 
 void
@@ -29,6 +31,9 @@ digit_insert(GreadNumberEntry *self){
 static void
 gread_number_entry_get_property(GObject *object, guint property_id,
                                 GValue *value, GParamSpec *pspec){
+
+  if(gtk_editable_delegate_get_property(object, property_id, value, pspec))
+    return;
 
   GreadNumberEntry *self = GREAD_NUMBER_ENTRY(object);
 
@@ -50,16 +55,47 @@ gread_number_entry_get_property(GObject *object, guint property_id,
 }
 
 static void
+gread_number_entry_set_property(GObject *object, guint property_id,
+                                const GValue *value, GParamSpec *pspec){
+
+  if(gtk_editable_delegate_set_property(object, property_id, value,pspec))
+    return;
+
+  GreadNumberEntry *self = GREAD_NUMBER_ENTRY(object);
+
+  switch((GreadNumberEntryProperty) property_id){
+  case PROP_DIGITS:
+    self->digits = g_value_get_uint(value);
+    g_print("GreadNumberEntry digits : %d", self->digits);
+    break;
+
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+  }
+}
+
+static void
 gread_number_entry_dispose(GObject *object){
     GreadNumberEntry *self;
   self = GREAD_NUMBER_ENTRY(object);
-  gtk_widget_unparent (GTK_WIDGET (self));
+  gtk_editable_finish_delegate(GTK_EDITABLE(self));
+  g_clear_pointer(&self->text, gtk_widget_unparent);
   G_OBJECT_CLASS(gread_number_entry_parent_class)->dispose(object);
 }
 
 static void
 gread_number_entry_finalize(GObject *object){
   G_OBJECT_CLASS(gread_number_entry_parent_class)->finalize(object);
+}
+
+GtkEditable *
+get_editable_delegate(GtkEditable *editable){
+  return GTK_EDITABLE(GREAD_NUMBER_ENTRY(editable)->text);
+}
+
+static void
+gread_number_entry_editable_init(GtkEditableInterface *iface){
+  iface->get_delegate = get_editable_delegate;
 }
 
 static void
@@ -77,16 +113,22 @@ gread_number_entry_class_init(GreadNumberEntryClass *klass){
                       G_PARAM_READWRITE);
 
   obj_properties[PROP_VALUE] =
-    g_param_spec_uint("value",
+    g_param_spec_ulong("value",
                       "Value",
                       "Value of the number written.",
                       0,
+                      9999999999,
+                      10,
                       G_PARAM_READABLE);
 
   object_class->dispose = gread_number_entry_dispose;
   object_class->finalize = gread_number_entry_finalize;
+  object_class->set_property = gread_number_entry_set_property;
+  object_class->get_property = gread_number_entry_get_property;
 
-  g_object_class_install_properties(GObjectClass *oclass, guint n_pspecs, GParamSpec **pspecs)
+  g_object_class_install_properties(object_class, N_PROPERTIES, obj_properties);
+  gtk_editable_install_properties(object_class, N_PROPERTIES);
+
   gtk_widget_class_set_template_from_resource(widget_class,
                                               "/org/gnome/gread/gui/gread-number-entry.ui");
   gtk_widget_class_bind_template_child(widget_class, GreadNumberEntry, text);
@@ -96,5 +138,6 @@ gread_number_entry_class_init(GreadNumberEntryClass *klass){
 static void
 gread_number_entry_init(GreadNumberEntry *self){
   gtk_widget_init_template(GTK_WIDGET(self));
-  g_signal_connect_swapped(self->entry, "insert-text", G_CALLBACK(digit_insert), self);
+  gtk_editable_init_delegate(GTK_EDITABLE(self));
+  //g_signal_connect_swapped(self->text, "insert-text", G_CALLBACK(digit_insert), self);
 }

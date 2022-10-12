@@ -2,7 +2,7 @@
 <interface>
   <template class="GreadNumberEntry" parent="AdwBin">
     <child>
-      <object class="GtkEntry" id="entry">
+      <object class="GtkText" id="text">
         <property name="halign">GTK_ALIGN_CENTER</property>
         <property name="valign">GTK_ALIGN_CENTER</property>
         <style>
