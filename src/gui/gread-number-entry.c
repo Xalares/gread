@@ -79,7 +79,8 @@ gread_number_entry_dispose(GObject *object){
     GreadNumberEntry *self;
   self = GREAD_NUMBER_ENTRY(object);
   gtk_editable_finish_delegate(GTK_EDITABLE(self));
-  g_clear_pointer(&self->text, gtk_widget_unparent);
+  GtkWidget *text = GTK_WIDGET(self->text);
+  g_clear_pointer(&text, gtk_widget_unparent);
   G_OBJECT_CLASS(gread_number_entry_parent_class)->dispose(object);
 }
 
