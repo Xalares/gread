@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="GreadNumberEntry" parent="AdwBin">
+  <template class="GreadNumberEntry" parent="GtkWidget">
     <child>
       <object class="GtkText" id="text">
         <property name="halign">GTK_ALIGN_CENTER</property>
@@ -10,5 +10,5 @@
         </style>
       </object>
     </child>
-  </template>
+   </template>
 </interface>

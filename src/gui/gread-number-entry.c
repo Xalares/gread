@@ -4,7 +4,7 @@
 #include "gread-number-entry.h"
 
 struct _GreadNumberEntry {
-  AdwBin parent;
+  GtkWidget parent;
   GtkText *text;
   guint value;
   guint digits;
@@ -18,7 +18,7 @@ typedef enum {
 
 static GParamSpec *obj_properties[N_PROPERTIES] = {NULL, };
 
-G_DEFINE_TYPE (GreadNumberEntry, gread_number_entry, ADW_TYPE_BIN)
+G_DEFINE_TYPE (GreadNumberEntry, gread_number_entry, GTK_TYPE_WIDGET)
 
 void
 gread_number_entry_clear(GreadNumberEntry *self){
@@ -44,7 +44,7 @@ gread_number_entry_get_property(GObject *object, guint property_id,
     break;
 
   case PROP_VALUE:
-    gtk_text_get_text_length(self->text);
+    self->value = gtk_text_get_text_length(self->text);
     g_value_set_uint(value, self->value);
     break;
 
@@ -58,7 +58,7 @@ static void
 gread_number_entry_set_property(GObject *object, guint property_id,
                                 const GValue *value, GParamSpec *pspec){
 
-  if(gtk_editable_delegate_set_property(object, property_id, value,pspec))
+  if(gtk_editable_delegate_set_property(object, property_id, value, pspec))
     return;
 
   GreadNumberEntry *self = GREAD_NUMBER_ENTRY(object);
