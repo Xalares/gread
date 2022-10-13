@@ -13,6 +13,7 @@ struct _GreadNumberEntry {
 typedef enum {
   PROP_DIGITS = 1,
   PROP_VALUE,
+  PROP_TEXT,
   N_PROPERTIES
 } GreadNumberEntryProperty;
 
@@ -48,6 +49,10 @@ gread_number_entry_get_property(GObject *object, guint property_id,
     g_value_set_uint(value, self->value);
     break;
 
+  case PROP_TEXT:
+    g_value_set_object(value, self->text);
+    break;
+
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
   }
@@ -67,6 +72,10 @@ gread_number_entry_set_property(GObject *object, guint property_id,
   case PROP_DIGITS:
     self->digits = g_value_get_uint(value);
     g_print("GreadNumberEntry digits : %d", self->digits);
+    break;
+
+  case PROP_TEXT:
+    self->text = g_value_get_object(value);
     break;
 
   default:
@@ -121,6 +130,13 @@ gread_number_entry_class_init(GreadNumberEntryClass *klass){
                       9999999999,
                       10,
                       G_PARAM_READABLE);
+
+  obj_properties[PROP_TEXT] =
+    g_param_spec_object("text",
+                        "Text",
+                        "GreadNumberEntry text",
+                        GTK_TYPE_TEXT,
+                        G_PARAM_READWRITE);
 
   object_class->dispose = gread_number_entry_dispose;
   object_class->finalize = gread_number_entry_finalize;
