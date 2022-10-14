@@ -13,13 +13,14 @@ struct _GreadNumberEntry {
 typedef enum {
   PROP_DIGITS = 1,
   PROP_VALUE,
-  PROP_TEXT,
   N_PROPERTIES
 } GreadNumberEntryProperty;
 
 static GParamSpec *obj_properties[N_PROPERTIES] = {NULL, };
+static void gread_number_entry_editable_init (GtkEditableInterface *iface);
 
-G_DEFINE_TYPE (GreadNumberEntry, gread_number_entry, GTK_TYPE_WIDGET)
+G_DEFINE_TYPE_WITH_CODE (GreadNumberEntry, gread_number_entry, GTK_TYPE_WIDGET,
+                         G_IMPLEMENT_INTERFACE(GTK_TYPE_EDITABLE, gread_number_entry_editable_init))
 
 void
 gread_number_entry_clear(GreadNumberEntry *self){
@@ -49,10 +50,6 @@ gread_number_entry_get_property(GObject *object, guint property_id,
     g_value_set_uint(value, self->value);
     break;
 
-  case PROP_TEXT:
-    g_value_set_object(value, self->text);
-    break;
-
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
   }
@@ -64,18 +61,15 @@ gread_number_entry_set_property(GObject *object, guint property_id,
                                 const GValue *value, GParamSpec *pspec){
 
   if(gtk_editable_delegate_set_property(object, property_id, value, pspec))
-    return;
+     return;
 
   GreadNumberEntry *self = GREAD_NUMBER_ENTRY(object);
 
   switch((GreadNumberEntryProperty) property_id){
+
   case PROP_DIGITS:
     self->digits = g_value_get_uint(value);
     g_print("GreadNumberEntry digits : %d", self->digits);
-    break;
-
-  case PROP_TEXT:
-    self->text = g_value_get_object(value);
     break;
 
   default:
@@ -85,7 +79,7 @@ gread_number_entry_set_property(GObject *object, guint property_id,
 
 static void
 gread_number_entry_dispose(GObject *object){
-    GreadNumberEntry *self;
+  GreadNumberEntry *self;
   self = GREAD_NUMBER_ENTRY(object);
   gtk_editable_finish_delegate(GTK_EDITABLE(self));
   GtkWidget *text = GTK_WIDGET(self->text);
@@ -130,13 +124,6 @@ gread_number_entry_class_init(GreadNumberEntryClass *klass){
                       9999999999,
                       10,
                       G_PARAM_READABLE);
-
-  obj_properties[PROP_TEXT] =
-    g_param_spec_object("text",
-                        "Text",
-                        "GreadNumberEntry text",
-                        GTK_TYPE_TEXT,
-                        G_PARAM_READWRITE);
 
   object_class->dispose = gread_number_entry_dispose;
   object_class->finalize = gread_number_entry_finalize;
