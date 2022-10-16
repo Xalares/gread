@@ -17,7 +17,13 @@ typedef enum {
   N_PROPERTIES
 } GreadNumberEntryProperty;
 
-static guint limit_signal;
+typedef enum {
+  SIG_LIMIT_REACHED,
+  SIG_INVALID_CHAR,
+  N_SIGNAL
+} GreadNumberEntrySignal;
+
+static guint *obj_signal[N_SIGNAL] = {NULL, };
 static GParamSpec *obj_properties[N_PROPERTIES] = {NULL, };
 static void gread_number_entry_editable_init (GtkEditableInterface *iface);
 
@@ -27,6 +33,7 @@ G_DEFINE_TYPE_WITH_CODE (GreadNumberEntry, gread_number_entry, GTK_TYPE_WIDGET,
 void
 gread_number_entry_clear(GreadNumberEntry *self){
   guint16 digits = gtk_text_get_text_length(self->text);
+  self->value = 0;
   gtk_editable_delete_text(GTK_EDITABLE(self->text), 0, digits);
 }
 
@@ -42,18 +49,51 @@ insert_text_handler(GtkEditable *editable, const char *text, int length,
   g_signal_handlers_block_by_func(editable, (gpointer)insert_text_handler, data);
 
   guint text_length = strlen(gtk_editable_get_text(editable));
+  char *invalid_char = NULL;
+  unsigned long value = 0;
+  GreadNumberEntry *self = GREAD_NUMBER_ENTRY(data);
 
   if(text_length < GREAD_NUMBER_ENTRY(data)->digits){
+    value = strtoul(text, &invalid_char, 10);
 
-    gtk_editable_insert_text(editable, text, length, position);
-    if (text_length == GREAD_NUMBER_ENTRY(data)->digits-1){
-      g_signal_emit(GREAD_NUMBER_ENTRY(data), limit_signal, 0);
+    if(*invalid_char == '\0'){
+      self->value += value*pow(10,(self->digits-text_length-1));
+
+
+      gtk_editable_insert_text(editable, text, length, position);
+
+    }else{
+      *invalid_char = NULL;
+      g_signal_emit(self, obj_signal[SIG_INVALID_CHAR], 0);
+
+    }
+    if (text_length == self->digits-1){
+      g_signal_emit(self, obj_signal[SIG_LIMIT_REACHED], 0);
     }
 
   }
   g_signal_handlers_unblock_by_func(editable, (gpointer)insert_text_handler, data);
 
   g_signal_stop_emission_by_name(editable, "insert_text");
+}
+
+//TODO: delete_text_handler
+static void
+delete_text_handler(GtkEditable *editable, int start_pos, int end_pos, gpointer data){
+
+  g_signal_handlers_block_by_func(editable, (gpointer)delete_text_handler, data);
+  GreadNumberEntry *self = GREAD_NUMBER_ENTRY(data);
+  const char * text = gtk_editable_get_text(editable);
+  const char character = text[start_pos];
+  unsigned long value = strtoul(&character, NULL, 10);
+  self->value -= value*pow(10, start_pos);
+
+
+  gtk_editable_delete_text(editable, start_pos, end_pos);
+
+
+  g_signal_handlers_unblock_by_func(editable, (gpointer)delete_text_handler, data);
+  g_signal_stop_emission_by_name(editable, "delete_text");
 }
 
 static void
@@ -157,7 +197,8 @@ gread_number_entry_class_init(GreadNumberEntryClass *klass){
   object_class->set_property = gread_number_entry_set_property;
   object_class->get_property = gread_number_entry_get_property;
 
-  limit_signal = g_signal_newv("limit-reached",
+  obj_signal[SIG_LIMIT_REACHED] =
+    g_signal_newv("limit-reached",
                 G_TYPE_FROM_CLASS(object_class),
                 G_SIGNAL_RUN_LAST | G_SIGNAL_NO_RECURSE | G_SIGNAL_NO_HOOKS,
                 NULL,
@@ -167,6 +208,18 @@ gread_number_entry_class_init(GreadNumberEntryClass *klass){
                 G_TYPE_NONE,
                 0,
                 NULL);
+
+  obj_signal[SIG_INVALID_CHAR] =
+    g_signal_newv("invalid-char",
+                  G_TYPE_FROM_CLASS(object_class),
+                  G_SIGNAL_RUN_LAST | G_SIGNAL_NO_RECURSE | G_SIGNAL_NO_HOOKS,
+                  NULL,
+                  NULL,
+                  NULL,
+                  NULL,
+                  G_TYPE_NONE,
+                  0,
+                  NULL);
 
   widget_class->grab_focus = grab_focus;
 
@@ -185,5 +238,6 @@ gread_number_entry_init(GreadNumberEntry *self){
   gtk_editable_init_delegate(GTK_EDITABLE(self));
   self->digits = 2;
   g_signal_connect(self->text, "insert-text", G_CALLBACK(insert_text_handler), self);
+  g_signal_connect(self->text, "delete-text", G_CALLBACK(delete_text_handler), self);
   //g_signal_connect_swapped(self, "activate", G_CALLBACK(has_focus_handler), self);
 }

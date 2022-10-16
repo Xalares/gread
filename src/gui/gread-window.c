@@ -107,6 +107,7 @@ gread_app_window_init(GreadAppWindow *self){
   self->interval = 500;
   gtk_widget_init_template(GTK_WIDGET(self));
   g_signal_connect_swapped(self->number_entry, "limit-reached", G_CALLBACK(gtk_widget_grab_focus), self->button_next);
+  //g_signal_connect_swapped(self->number_entry, "invalid-char", gtk_, data)
   g_signal_connect_swapped(self->button_start, "clicked", G_CALLBACK(start), self);
   g_signal_connect_swapped(self->button_next, "clicked", G_CALLBACK(next), self);
 }
