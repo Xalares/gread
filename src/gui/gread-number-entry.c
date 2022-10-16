@@ -67,10 +67,9 @@ insert_text_handler(GtkEditable *editable, const char *text, int length,
       g_signal_emit(self, obj_signal[SIG_INVALID_CHAR], 0);
 
     }
-    if (text_length == self->digits-1){
-      g_signal_emit(self, obj_signal[SIG_LIMIT_REACHED], 0);
-    }
-
+  }
+  if(text_length == self->digits-1){
+    g_signal_emit(self, obj_signal[SIG_LIMIT_REACHED], 0);
   }
   g_signal_handlers_unblock_by_func(editable, (gpointer)insert_text_handler, data);
 
