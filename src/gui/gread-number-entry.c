@@ -1,5 +1,6 @@
 #include <gtk/gtk.h>
 #include <adwaita.h>
+#include <string.h>
 
 #include "gread-number-entry.h"
 
@@ -16,6 +17,7 @@ typedef enum {
   N_PROPERTIES
 } GreadNumberEntryProperty;
 
+static guint limit_signal;
 static GParamSpec *obj_properties[N_PROPERTIES] = {NULL, };
 static void gread_number_entry_editable_init (GtkEditableInterface *iface);
 
@@ -24,10 +26,34 @@ G_DEFINE_TYPE_WITH_CODE (GreadNumberEntry, gread_number_entry, GTK_TYPE_WIDGET,
 
 void
 gread_number_entry_clear(GreadNumberEntry *self){
+  guint16 digits = gtk_text_get_text_length(self->text);
+  gtk_editable_delete_text(GTK_EDITABLE(self->text), 0, digits);
 }
 
 static void
-digit_insert(GreadNumberEntry *self){
+grab_focus(GreadNumberEntry *self){
+  gtk_widget_grab_focus(self->text);
+}
+
+static void
+insert_text_handler(GtkEditable *editable, const char *text, int length,
+                    int *position, gpointer data){
+
+  g_signal_handlers_block_by_func(editable, (gpointer)insert_text_handler, data);
+
+  guint text_length = strlen(gtk_editable_get_text(editable));
+
+  if(text_length < GREAD_NUMBER_ENTRY(data)->digits){
+
+    gtk_editable_insert_text(editable, text, length, position);
+    if (text_length == GREAD_NUMBER_ENTRY(data)->digits-1){
+      g_signal_emit(GREAD_NUMBER_ENTRY(data), limit_signal, 0);
+    }
+
+  }
+  g_signal_handlers_unblock_by_func(editable, (gpointer)insert_text_handler, data);
+
+  g_signal_stop_emission_by_name(editable, "insert_text");
 }
 
 static void
@@ -82,6 +108,7 @@ gread_number_entry_dispose(GObject *object){
   GreadNumberEntry *self;
   self = GREAD_NUMBER_ENTRY(object);
   gtk_editable_finish_delegate(GTK_EDITABLE(self));
+
   GtkWidget *text = GTK_WIDGET(self->text);
   g_clear_pointer(&text, gtk_widget_unparent);
   G_OBJECT_CLASS(gread_number_entry_parent_class)->dispose(object);
@@ -130,6 +157,19 @@ gread_number_entry_class_init(GreadNumberEntryClass *klass){
   object_class->set_property = gread_number_entry_set_property;
   object_class->get_property = gread_number_entry_get_property;
 
+  limit_signal = g_signal_newv("limit-reached",
+                G_TYPE_FROM_CLASS(object_class),
+                G_SIGNAL_RUN_LAST | G_SIGNAL_NO_RECURSE | G_SIGNAL_NO_HOOKS,
+                NULL,
+                NULL,
+                NULL,
+                NULL,
+                G_TYPE_NONE,
+                0,
+                NULL);
+
+  widget_class->grab_focus = grab_focus;
+
   g_object_class_install_properties(object_class, N_PROPERTIES, obj_properties);
   gtk_editable_install_properties(object_class, N_PROPERTIES);
 
@@ -143,5 +183,7 @@ static void
 gread_number_entry_init(GreadNumberEntry *self){
   gtk_widget_init_template(GTK_WIDGET(self));
   gtk_editable_init_delegate(GTK_EDITABLE(self));
-  //g_signal_connect_swapped(self->text, "insert-text", G_CALLBACK(digit_insert), self);
+  self->digits = 2;
+  g_signal_connect(self->text, "insert-text", G_CALLBACK(insert_text_handler), self);
+  //g_signal_connect_swapped(self, "activate", G_CALLBACK(has_focus_handler), self);
 }

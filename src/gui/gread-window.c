@@ -22,6 +22,7 @@ G_DEFINE_TYPE (GreadAppWindow, gread_app_window, ADW_TYPE_APPLICATION_WINDOW)
 static void timeout(GreadAppWindow *self){
   gtk_widget_set_visible(GTK_WIDGET(self->label), false);
   gtk_widget_set_visible(GTK_WIDGET(self->number_entry), true);
+  gboolean focus = gtk_widget_grab_focus(GTK_WIDGET(self->number_entry));
 }
 
 //callbacks
@@ -58,6 +59,7 @@ next(GreadAppWindow *self){
   }
   gread_label_roll(self->label);
   gtk_widget_set_visible(GTK_WIDGET(self->label), true);
+
   g_timeout_add_once(self->interval, timeout, self);
 }
 
@@ -104,6 +106,7 @@ gread_app_window_init(GreadAppWindow *self){
   //win->label = g_object_new(GREAD_LABEL_TYPE, NULL);
   self->interval = 500;
   gtk_widget_init_template(GTK_WIDGET(self));
+  g_signal_connect_swapped(self->number_entry, "limit-reached", G_CALLBACK(gtk_widget_grab_focus), self->button_next);
   g_signal_connect_swapped(self->button_start, "clicked", G_CALLBACK(start), self);
   g_signal_connect_swapped(self->button_next, "clicked", G_CALLBACK(next), self);
 }
