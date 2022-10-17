@@ -17,6 +17,7 @@ struct _GreadAppWindow {
   gdouble progress;
   guint prog_step;
   guint interval;
+  guint digits;
   gboolean start;
 };
 
@@ -87,7 +88,7 @@ next(GreadAppWindow *self){
     gtk_widget_set_visible(GTK_WIDGET(self->number_entry), false);
     gtk_widget_set_visible(GTK_WIDGET(self->progress_bar), true);
   }
-
+  g_print("%d:%d, %d\n",gread_label_get_value(self->label),gread_number_entry_get_value(self->number_entry), (gread_label_get_value(self->label)==(gread_number_entry_get_value(self->number_entry))));
   gread_label_roll(self->label);
   gtk_widget_set_visible(GTK_WIDGET(self->label), false);
   gtk_widget_set_visible(GTK_WIDGET(self->progress_bar), true);

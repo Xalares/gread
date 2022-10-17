@@ -37,6 +37,11 @@ gread_number_entry_clear(GreadNumberEntry *self){
   gtk_editable_delete_text(GTK_EDITABLE(self->text), 0, digits);
 }
 
+guint
+gread_number_entry_get_value(GreadNumberEntry *self){
+  return self->value;
+}
+
 static void
 grab_focus(GreadNumberEntry *self){
   gtk_widget_grab_focus(self->text);
