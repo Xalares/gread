@@ -15,6 +15,7 @@ struct _GreadAppWindow {
   GtkButton *button_start;
   GtkButton *button_next;
   gdouble progress;
+  guint prog_step;
   guint interval;
   gboolean start;
 };
@@ -57,7 +58,7 @@ start(GreadAppWindow *win){
     gtk_widget_set_sensitive(win->button_next, false);
     gtk_button_set_label(win->button_start, "Stop");
     gtk_widget_set_visible(win->progress_bar, true);
-    g_timeout_add(win->interval, progress, win);
+    g_timeout_add(win->prog_step, progress, win);
     win->start = true;
   }else{
     gtk_widget_set_visible(win->progress_bar, false);
@@ -91,7 +92,7 @@ next(GreadAppWindow *self){
   gtk_widget_set_visible(GTK_WIDGET(self->label), false);
   gtk_widget_set_visible(GTK_WIDGET(self->progress_bar), true);
   gtk_widget_set_sensitive(GTK_WIDGET(self->button_next), false);
-  g_timeout_add(self->interval, progress, self);
+  g_timeout_add(self->prog_step, progress, self);
 }
 
 static void
@@ -137,6 +138,7 @@ gread_app_window_init(GreadAppWindow *self){
   g_type_ensure(GREAD_NUMBER_ENTRY_TYPE);
 
   self->interval = 500;
+  self->prog_step = 175;
   self->progress = 0.0;
   gtk_widget_init_template(GTK_WIDGET(self));
   g_signal_connect_swapped(self->number_entry, "limit-reached", G_CALLBACK(gtk_widget_grab_focus), self->button_next);
