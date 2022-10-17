@@ -58,8 +58,6 @@ insert_text_handler(GtkEditable *editable, const char *text, int length,
 
     if(*invalid_char == '\0'){
       self->value += value*pow(10,(self->digits-text_length-1));
-
-
       gtk_editable_insert_text(editable, text, length, position);
 
     }else{
