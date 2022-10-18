@@ -62,8 +62,8 @@ insert_text_handler(GtkEditable *editable, const char *text, int length,
     value = strtoul(text, &invalid_char, 10);
 
     if(*invalid_char == '\0'){
-      self->value += value*pow(10,(self->digits-text_length-1));
       gtk_editable_insert_text(editable, text, length, position);
+      self->value = strtoul(gtk_editable_get_text(editable), NULL, 10);
 
     }else{
       *invalid_char = NULL;
@@ -85,15 +85,8 @@ delete_text_handler(GtkEditable *editable, int start_pos, int end_pos, gpointer 
 
   g_signal_handlers_block_by_func(editable, (gpointer)delete_text_handler, data);
   GreadNumberEntry *self = GREAD_NUMBER_ENTRY(data);
-  const char * text = gtk_editable_get_text(editable);
-  const char character = text[start_pos];
-  unsigned long value = strtoul(&character, NULL, 10);
-  self->value -= value*pow(10, start_pos);
-
-
   gtk_editable_delete_text(editable, start_pos, end_pos);
-
-
+  self->value = (guint) strtoul(gtk_editable_get_text(editable), NULL, 10);
   g_signal_handlers_unblock_by_func(editable, (gpointer)delete_text_handler, data);
   g_signal_stop_emission_by_name(editable, "delete_text");
 }
