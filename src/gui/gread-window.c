@@ -21,6 +21,13 @@ struct _GreadAppWindow {
   gboolean start;
 };
 
+typedef enum {
+  PROGRESS,
+  N_TIMEOUT
+} GreadAppWindowTimeout;
+
+static guint *obj_timeout[N_TIMEOUT] = {NULL, };
+
 G_DEFINE_TYPE (GreadAppWindow, gread_app_window, ADW_TYPE_APPLICATION_WINDOW)
 
 //timeouts
@@ -28,11 +35,12 @@ static void
 timeout(GreadAppWindow *self){
   gtk_widget_set_visible(GTK_WIDGET(self->label), false);
   gtk_widget_set_visible(GTK_WIDGET(self->number_entry), true);
-  gboolean focus = gtk_widget_grab_focus(GTK_WIDGET(self->number_entry));
+  gtk_widget_grab_focus(GTK_WIDGET(self->number_entry));
 }
 
 static gboolean
 progress(GreadAppWindow *self){
+
   if(self->progress <= 1.0){
     gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(self->progress_bar), self->progress);
     self->progress += 0.25;
@@ -44,27 +52,43 @@ progress(GreadAppWindow *self){
   self->progress = 0.0;
   gtk_widget_set_visible(GTK_WIDGET(self->label), true);
   gtk_widget_set_sensitive(GTK_WIDGET(self->button_next), true);
-  g_timeout_add_once(self->interval, timeout, self);
-
+  if(self->start){
+    g_print("%d",self->start);
+    g_timeout_add_once(self->interval, timeout, self);
+  }
+  obj_timeout[PROGRESS] = 0;
   return false;
 }
 
 //callbacks
 static void
 start_cb(GreadAppWindow *win){
+
   if(!win->start){
+    win->start = true;
     gtk_widget_set_visible(GTK_WIDGET(win->label), false);
     gread_label_roll(win->label);
     gtk_widget_set_visible(win->button_next, true);
     gtk_widget_set_sensitive(win->button_next, false);
     gtk_button_set_label(win->button_start, "Stop");
     gtk_widget_set_visible(win->progress_bar, true);
-    g_timeout_add(win->prog_step, progress, win);
-    win->start = true;
+    //use g_timeout_add_full
+    obj_timeout[PROGRESS] = g_timeout_add(win->prog_step, progress, win);
+    g_source_set_callback(obj_timeout[PROGRESS], g_print, "yolo\n", NULL);
+
   }else{
+    win->start = false;
     gtk_widget_set_visible(win->progress_bar, false);
-    win->progress = 0.0;
     gtk_button_set_label(win->button_start,"Start");
+
+    win->progress = 0.0;
+    gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(win->progress_bar), 0.0);
+
+    if(obj_timeout[PROGRESS]){
+      g_print("source with id:%d removed\n", obj_timeout[PROGRESS]);
+
+      g_source_remove(obj_timeout[PROGRESS]);
+    }
 
     if(gtk_widget_is_visible(GTK_WIDGET(win->number_entry))){
       gread_number_entry_clear(win->number_entry);
@@ -74,24 +98,22 @@ start_cb(GreadAppWindow *win){
     if(!gtk_widget_is_visible(GTK_WIDGET(win->label))){
       gtk_widget_set_visible(GTK_WIDGET(win->label), true);
     }
+
+    gtk_widget_remove_css_class(win->label, "correct");
+    gtk_widget_remove_css_class(win->label, "wrong");
     gread_label_set_text(win->label, "Prêt ?");
     gtk_widget_set_visible(GTK_WIDGET(win->button_next), false);
-    win->start = false;
   }
 }
 
 static void
 next_cb(GreadAppWindow *self){
 
-  if(gtk_widget_is_visible(GTK_WIDGET(self->number_entry))){
-    if(gread_label_get_value(self->label) ==
-       gread_number_entry_get_value(self->number_entry)){
-      g_print("Success\n");
-    }
-    gread_number_entry_clear(self->number_entry);
-    gtk_widget_set_visible(GTK_WIDGET(self->number_entry), false);
-    gtk_widget_set_visible(GTK_WIDGET(self->progress_bar), true);
-  }
+  gread_number_entry_clear(self->number_entry);
+  gtk_widget_remove_css_class(self->label, "correct");
+  gtk_widget_remove_css_class(self->label, "wrong");
+  gtk_widget_set_visible(GTK_WIDGET(self->number_entry), false);
+  gtk_widget_set_visible(GTK_WIDGET(self->progress_bar), true);
 
   gread_label_roll(self->label);
   gtk_widget_set_visible(GTK_WIDGET(self->label), false);
@@ -102,14 +124,39 @@ next_cb(GreadAppWindow *self){
 
 static void
 enter_cb(GreadAppWindow *self){
-  //TODO
+
+  if(gtk_widget_is_visible(GTK_WIDGET(self->number_entry))){
+
+    if (gread_number_entry_digits_typed(self->number_entry) == self->digits){
+
+      gtk_widget_set_visible(GTK_WIDGET(self->number_entry), false);
+      gtk_widget_set_visible(GTK_WIDGET(self->label), true);
+
+      if(gread_number_entry_get_value(self->number_entry) ==
+         gread_label_get_value(self->label)){
+
+        gtk_widget_add_css_class(self->label, "correct");
+      }else{
+
+        gtk_widget_add_css_class(self->label, "wrong");
+      }
+
+      //gtk_widget_grab_focus(self->button_next);
+    }else{
+      gtk_widget_error_bell(self->number_entry);
+    }
+  }
 }
 
 static void
 gread_app_window_dispose(GObject *object){
   GreadAppWindow *self = GREAD_APP_WINDOW(object);
-  gtk_widget_unparent(GTK_WIDGET(self->label));
-  gtk_widget_unparent(GTK_WIDGET(self->number_entry));
+  g_clear_pointer(&self->label, gtk_widget_unparent);
+  g_clear_pointer(&self->number_entry, gtk_widget_unparent);
+  g_clear_pointer(&self->button_next, gtk_widget_unparent);
+  g_clear_pointer(&self->button_start, gtk_widget_unparent);
+  g_clear_pointer(&self->progress_bar, gtk_widget_unparent);
+  g_clear_pointer(&self->header_bar, gtk_widget_unparent);
 
   G_OBJECT_CLASS(gread_app_window_parent_class)->dispose(object);
 }
@@ -143,17 +190,16 @@ gread_app_window_class_init(GreadAppWindowClass *klass){
 
 static void
 gread_app_window_init(GreadAppWindow *self){
-  self->start = false;
   g_type_ensure(GREAD_LABEL_TYPE);
   g_type_ensure(GREAD_NUMBER_ENTRY_TYPE);
 
+  self->start = false;
   self->interval = 500;
   self->prog_step = 175;
   self->progress = 0.0;
-  gtk_widget_init_template(GTK_WIDGET(self));
+  self->digits = 2;
 
-  g_signal_connect_swapped(self->number_entry, "limit-reached",
-                           G_CALLBACK(gtk_widget_grab_focus), self->button_next);
+  gtk_widget_init_template(GTK_WIDGET(self));
 
   g_signal_connect_swapped(self->number_entry, "invalid-char",
                            G_CALLBACK(gtk_widget_error_bell), self);

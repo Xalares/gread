@@ -43,6 +43,11 @@ gread_number_entry_get_value(GreadNumberEntry *self){
   return self->value;
 }
 
+guint
+gread_number_entry_digits_typed(GreadNumberEntry *self){
+  gtk_text_get_text_length(self->text);
+}
+
 static void
 grab_focus(GreadNumberEntry *self){
   gtk_widget_grab_focus(self->text);

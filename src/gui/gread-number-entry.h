@@ -10,6 +10,7 @@ void gread_number_entry_clear(GreadNumberEntry *self);
 
 guint gread_number_entry_get_value(GreadNumberEntry *self);
 
+guint gread_number_entry_digits_typed(GreadNumberEntry *self);
 //void insert_text_handler(GtkEditable *editable, const char *text, int length,
 //                    int *position, gpointer data);
 
