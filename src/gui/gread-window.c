@@ -51,7 +51,7 @@ progress(GreadAppWindow *self){
 
 //callbacks
 static void
-start(GreadAppWindow *win){
+start_cb(GreadAppWindow *win){
   if(!win->start){
     gtk_widget_set_visible(GTK_WIDGET(win->label), false);
     gread_label_roll(win->label);
@@ -81,7 +81,7 @@ start(GreadAppWindow *win){
 }
 
 static void
-next(GreadAppWindow *self){
+next_cb(GreadAppWindow *self){
 
   if(gtk_widget_is_visible(GTK_WIDGET(self->number_entry))){
     if(gread_label_get_value(self->label) ==
@@ -98,6 +98,11 @@ next(GreadAppWindow *self){
   gtk_widget_set_visible(GTK_WIDGET(self->progress_bar), true);
   gtk_widget_set_sensitive(GTK_WIDGET(self->button_next), false);
   g_timeout_add(self->prog_step, progress, self);
+}
+
+static void
+enter_cb(GreadAppWindow *self){
+  //TODO
 }
 
 static void
@@ -146,10 +151,16 @@ gread_app_window_init(GreadAppWindow *self){
   self->prog_step = 175;
   self->progress = 0.0;
   gtk_widget_init_template(GTK_WIDGET(self));
-  g_signal_connect_swapped(self->number_entry, "limit-reached", G_CALLBACK(gtk_widget_grab_focus), self->button_next);
-  g_signal_connect_swapped(self->number_entry, "invalid-char", G_CALLBACK(gtk_widget_error_bell), self);
-  g_signal_connect_swapped(self->button_start, "clicked", G_CALLBACK(start), self);
-  g_signal_connect_swapped(self->button_next, "clicked", G_CALLBACK(next), self);
+
+  g_signal_connect_swapped(self->number_entry, "limit-reached",
+                           G_CALLBACK(gtk_widget_grab_focus), self->button_next);
+
+  g_signal_connect_swapped(self->number_entry, "invalid-char",
+                           G_CALLBACK(gtk_widget_error_bell), self);
+
+  g_signal_connect_swapped(self->button_start, "clicked", G_CALLBACK(start_cb), self);
+  g_signal_connect_swapped(self->button_next, "clicked", G_CALLBACK(next_cb), self);
+  g_signal_connect_swapped(self->number_entry, "enter-pressed", G_CALLBACK(enter_cb), self);
 }
 
 GreadAppWindow *

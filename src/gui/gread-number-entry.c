@@ -20,6 +20,7 @@ typedef enum {
 typedef enum {
   SIG_LIMIT_REACHED,
   SIG_INVALID_CHAR,
+  ENTER_PRESSED,
   N_SIGNAL
 } GreadNumberEntrySignal;
 
@@ -79,7 +80,6 @@ insert_text_handler(GtkEditable *editable, const char *text, int length,
   g_signal_stop_emission_by_name(editable, "insert_text");
 }
 
-//TODO: delete_text_handler
 static void
 delete_text_handler(GtkEditable *editable, int start_pos, int end_pos, gpointer data){
 
@@ -89,6 +89,15 @@ delete_text_handler(GtkEditable *editable, int start_pos, int end_pos, gpointer 
   self->value = (guint) strtoul(gtk_editable_get_text(editable), NULL, 10);
   g_signal_handlers_unblock_by_func(editable, (gpointer)delete_text_handler, data);
   g_signal_stop_emission_by_name(editable, "delete_text");
+}
+
+static gboolean
+key_pressed_handler(GtkEventControllerKey *controller, guint keyval,
+                    guint keycode, GdkModifierType state, GreadNumberEntry *self){
+  if(keyval == GDK_KEY_Return){
+    g_signal_emit(self, obj_signal[ENTER_PRESSED], 0);
+  }
+  return false;
 }
 
 static void
@@ -216,6 +225,18 @@ gread_number_entry_class_init(GreadNumberEntryClass *klass){
                   0,
                   NULL);
 
+  obj_signal[ENTER_PRESSED] =
+    g_signal_newv("enter-pressed",
+                  G_TYPE_FROM_CLASS(object_class),
+                  G_SIGNAL_RUN_LAST | G_SIGNAL_NO_RECURSE | G_SIGNAL_NO_HOOKS,
+                  NULL,
+                  NULL,
+                  NULL,
+                  NULL,
+                  G_TYPE_NONE,
+                  0,
+                  NULL);
+
   widget_class->grab_focus = grab_focus;
 
   g_object_class_install_properties(object_class, N_PROPERTIES, obj_properties);
@@ -229,10 +250,14 @@ gread_number_entry_class_init(GreadNumberEntryClass *klass){
 
 static void
 gread_number_entry_init(GreadNumberEntry *self){
+  GtkEventControllerKey *controller_key;
   gtk_widget_init_template(GTK_WIDGET(self));
   gtk_editable_init_delegate(GTK_EDITABLE(self));
   self->digits = 2;
+  controller_key = gtk_event_controller_key_new();
+
+  g_signal_connect(controller_key, "key-pressed", G_CALLBACK(key_pressed_handler), self);
   g_signal_connect(self->text, "insert-text", G_CALLBACK(insert_text_handler), self);
   g_signal_connect(self->text, "delete-text", G_CALLBACK(delete_text_handler), self);
-  //g_signal_connect_swapped(self, "activate", G_CALLBACK(has_focus_handler), self);
+  gtk_widget_add_controller(GTK_WIDGET(self->text), controller_key);
 }
