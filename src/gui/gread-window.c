@@ -5,11 +5,12 @@
 
 struct _GreadAppWindow {
   AdwApplicationWindow parent;
+  AdwHeaderBar *header_bar;
+  GMenuModel *menu;
   GtkWidget *main_box;
   GtkWidget *content_box;
   GtkWidget *bottom_box;
   GtkWidget *progress_bar;
-  AdwHeaderBar *header_bar;
   GreadLabel *label;
   GreadNumberEntry *number_entry;
   GtkButton *button_start;
@@ -184,6 +185,7 @@ gread_app_window_class_init(GreadAppWindowClass *klass){
 
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, main_box);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, header_bar);
+  gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, menu);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, content_box);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, progress_bar);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, bottom_box);
