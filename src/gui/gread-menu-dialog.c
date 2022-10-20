@@ -6,3 +6,9 @@ struct _GreadMenuDialog {
 };
 
 G_DEFINE_TYPE (GreadMenuDialog, gread_menu_dialog, GTK_TYPE_DIALOG)
+
+
+GreadMenuDialog *
+gread_menu_dialog_new(void){
+
+}
