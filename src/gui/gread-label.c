@@ -160,3 +160,8 @@ gread_label_init(GreadLabel *self){
   gtk_widget_init_template(GTK_WIDGET(self));
   gtk_label_set_text(self->label, "Prêt ?");
 }
+
+void
+gread_label_new(const char *text, const guint digits){
+  g_object_new(GREAD_LABEL_TYPE, "text", text, "digits", digits, NULL);
+}
