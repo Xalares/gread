@@ -14,7 +14,7 @@
         <child>
           <object class="AdwHeaderBar" id="header_bar">
             <child type="end">
-              <object class="GtkMenuButton" id="menu">
+              <object class="GtkMenuButton" id="menu_button">
               </object>
             </child>
           </object>

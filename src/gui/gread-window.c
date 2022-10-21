@@ -1,12 +1,13 @@
 #include <gtk/gtk.h>
 #include "gread-label.h"
 #include "gread-window.h"
+#include "gread-menu.h"
 #include "gread-number-entry.h"
 
 struct _GreadAppWindow {
   AdwApplicationWindow parent;
   AdwHeaderBar *header_bar;
-  GMenuModel *menu;
+  GtkMenuButton *menu_button;
   GtkWidget *main_box;
   GtkWidget *content_box;
   GtkWidget *bottom_box;
@@ -185,7 +186,7 @@ gread_app_window_class_init(GreadAppWindowClass *klass){
 
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, main_box);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, header_bar);
-  gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, menu);
+  gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, menu_button);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, content_box);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, progress_bar);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, bottom_box);

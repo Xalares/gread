@@ -11,5 +11,4 @@ sources += files(
   'gread-window.c',
   'gread-label.c',
   'gread-number-entry.c',
-  'gread-menu.c',
 )
