@@ -6,7 +6,7 @@ struct _GreadMenu {
   GtkDialog parent;
 };
 
-G_DEFINE_TYPE (GreadMenu, gread_menu, GTK_TYPE_MENU)
+G_DEFINE_TYPE (GreadMenu, gread_menu, GTK_TYPE_POPOVER)
 
 
 static void
@@ -14,7 +14,7 @@ gread_menu_class_init(GreadMenuClass *klass){
 
 }
 
-GreadMenuDialog *
+GreadMenu *
 gread_menu_new(GreadAppWindow *win){
   return g_object_new(GREAD_MENU_TYPE, "transient-for", win, "use-header-bar", TRUE, NULL);
 }
