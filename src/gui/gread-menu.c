@@ -6,4 +6,4 @@ struct _GreadMenu {
   GtkMenuButton *menu_button;
 };
 
-G_DEFINE_TYPE(GreadMenu, grea_menu, GTK_TYPE_BIN)
+G_DEFINE_TYPE(GreadMenu, gread_menu, GTK_TYPE_WIDGET)
