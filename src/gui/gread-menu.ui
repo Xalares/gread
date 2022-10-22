@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <menu id="menu">
-   <section>
+
+  <template class="GreadMenu" parent="GtkWidget">
+    <child>
+      <object class="GtkMenuButton" id="menu_button">
+        <property name="valign">3</property>
+        <property name="focus-on-click">0</property>
+        <property name="visible">true</property>
+        <property name="popover">popover</property>
+        <property name="icon-name">open-menu-symbolic</property>
+      </object>
+    </child>
+  </template>
+
+  <menu id="menu_model">
+    <section>
       <item>
         <attribute name="label" translatable="yes">_Preferences</attribute>
         <attribute name="action">app.preferences</attribute>
@@ -9,31 +22,25 @@
     </section>
     <section>
       <item>
-        <attribute name="custom">transition-speed</attribute>
+        <attribute name="custom">digits-number</attribute>
       </item>
     </section>
   </menu>
-  <object class="GtkMenuButton" id="gear_menu_button">
-            <property name="valign">3</property>
-            <property name="focus-on-click">0</property>
-            <property name="popover">
-              <object class="GtkPopoverMenu" id="gear_menu">
-                <property name="menu-model">gear_menu_model</property>
-                <child type="transition-speed">
-                  <object class="GtkScale">
-                    <property name="adjustment">
-                      <object class="GtkAdjustment">
-                        <property name="upper">1000</property>
-                        <property name="value">250</property>
-                        <property name="step-increment">50</property>
-                        <property name="page-increment">50</property>
-                      </object>
-                    </property>
-                    <signal name="value-changed" handler="transition_speed_changed"/>
-                  </object>
-                </child>
-              </object>
-            </property>
-            <property name="icon-name">open-menu-symbolic</property>
+
+  <object class="GtkPopoverMenu" id="popover">
+    <property name="menu-model">menu</property>
+    <child type="digits-number">
+      <object class="GtkScale">
+        <property name="adjustment">
+          <object class="GtkAdjustment">
+            <property name="upper">1000</property>
+            <property name="value">250</property>
+            <property name="step-increment">50</property>
+            <property name="page-increment">50</property>
           </object>
+        </property>
+      </object>
+    </child>
+  </object>
+
 </interface>

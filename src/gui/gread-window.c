@@ -1,13 +1,13 @@
 #include <gtk/gtk.h>
 #include "gread-label.h"
 #include "gread-window.h"
+#include "gread-menu.h"
 #include "gread-number-entry.h"
 
 struct _GreadAppWindow {
   AdwApplicationWindow parent;
   AdwHeaderBar *header_bar;
-  GtkMenuButton *menu_button;
-  GtkSpinButton *digits_spin;
+  GreadMenu *menu_button;
   GtkWidget *main_box;
   GtkWidget *content_box;
   GtkWidget *bottom_box;
@@ -199,6 +199,7 @@ gread_app_window_class_init(GreadAppWindowClass *klass){
 
 static void
 gread_app_window_init(GreadAppWindow *self){
+  g_type_ensure(GREAD_MENU_TYPE);
   g_type_ensure(GREAD_LABEL_TYPE);
   g_type_ensure(GREAD_NUMBER_ENTRY_TYPE);
 
@@ -213,12 +214,12 @@ gread_app_window_init(GreadAppWindow *self){
 
   gtk_widget_init_template(GTK_WIDGET(self));
 
-  builder = gtk_builder_new_from_resource("/org/gnome/gread/gui/gread-menu.ui");
+  /*builder = gtk_builder_new_from_resource("/org/gnome/gread/gui/gread-menu.ui");
   menu = G_MENU_MODEL(gtk_builder_get_object(builder, "menu"));
   gtk_menu_button_set_menu_model(self->menu_button, menu);
 
   gtk_menu_button_set_icon_name(self->menu_button, "open-menu-symbolic");
-  g_object_unref(builder);
+  g_object_unref(builder);*/
 
   g_signal_connect_swapped(self->number_entry, "invalid-char",
                            G_CALLBACK(gtk_widget_error_bell), self);
