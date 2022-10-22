@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <menu id="menu_button">
+  <menu id="menu">
    <section>
       <item>
         <attribute name="label" translatable="yes">_Preferences</attribute>
@@ -9,8 +9,7 @@
     </section>
     <section>
       <item>
-        <attribute name="label" translatable="yes">_Quit</attribute>
-        <attribute name="action">app.quit</attribute>
+        <attribute name="custom">digits</attribute>
       </item>
     </section>
   </menu>
