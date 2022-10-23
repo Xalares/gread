@@ -24,7 +24,7 @@ typedef enum {
   N_SIGNAL
 } GreadNumberEntrySignal;
 
-static guint *obj_signal[N_SIGNAL] = {NULL, };
+static guint obj_signal[N_SIGNAL] = {0, };
 static GParamSpec *obj_properties[N_PROPERTIES] = {NULL, };
 static void gread_number_entry_editable_init (GtkEditableInterface *iface);
 
@@ -45,12 +45,12 @@ gread_number_entry_get_value(GreadNumberEntry *self){
 
 guint
 gread_number_entry_digits_typed(GreadNumberEntry *self){
-  gtk_text_get_text_length(self->text);
+  return gtk_text_get_text_length(self->text);
 }
 
 static void
 grab_focus(GreadNumberEntry *self){
-  gtk_widget_grab_focus(self->text);
+  gtk_widget_grab_focus(GTK_WIDGET(self->text));
 }
 
 static void
