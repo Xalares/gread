@@ -72,7 +72,7 @@ insert_text_handler(GtkEditable *editable, const char *text, int length,
       self->value = strtoul(gtk_editable_get_text(editable), NULL, 10);
 
     }else{
-      *invalid_char = NULL;
+      *invalid_char = 0;
       g_signal_emit(self, obj_signal[SIG_INVALID_CHAR], 0);
 
     }

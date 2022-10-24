@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-
-  <template class="GreadMenu" parent="GtkWidget">
+  <template class="GreadMenu" parent="AdwBin">
     <child>
       <object class="GtkMenuButton" id="menu_button">
         <property name="valign">3</property>
         <property name="focus-on-click">0</property>
-        <property name="visible">true</property>
         <property name="popover">popover</property>
-        <property name="icon-name">open-menu-symbolic</property>
+        <!--<property name="icon-name"></property>-->
       </object>
     </child>
   </template>
 
-  <menu id="menu_model">
+  <menu id="menu">
     <section>
       <item>
         <attribute name="label" translatable="yes">_Preferences</attribute>
@@ -30,17 +28,29 @@
   <object class="GtkPopoverMenu" id="popover">
     <property name="menu-model">menu</property>
     <child type="digits-number">
-      <object class="GtkScale">
-        <property name="adjustment">
-          <object class="GtkAdjustment">
-            <property name="upper">1000</property>
-            <property name="value">250</property>
-            <property name="step-increment">50</property>
-            <property name="page-increment">50</property>
+      <object class="GtkBox">
+        <property name="orientation">horizontal</property>
+        <property name="spacing">25</property>
+        <child>
+          <object class="GtkSpinButton" id="digits_spin">
+            <property name="adjustment">
+              <object class="GtkAdjustment">
+                <property name="upper">6</property>
+                <property name="lower">1</property>
+                <property name="value">2</property>
+                <property name="step-increment">1</property>
+                <property name="page-increment">2</property>
+              </object>
+            </property>
           </object>
-        </property>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="label">Yolo</property>
+          </object>
+        </child>
       </object>
     </child>
   </object>
-
+  
 </interface>

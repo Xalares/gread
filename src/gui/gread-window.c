@@ -72,7 +72,7 @@ start_cb(GreadAppWindow *win){
     win->start = true;
     gtk_widget_set_visible(GTK_WIDGET(win->label), false);
     gread_label_roll(win->label);
-    gtk_widget_set_visible(GTK_WIDGET(win->label), true);
+    gtk_widget_set_visible(GTK_WIDGET(win->button_next), true);
     gtk_widget_set_sensitive(GTK_WIDGET(win->button_next), false);
 
     gtk_button_set_label(win->button_start, "Stop");
@@ -88,14 +88,10 @@ start_cb(GreadAppWindow *win){
     gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(win->progress_bar), 0.0);
 
     if(obj_timeout[PROGRESS]){
-      g_print("source progress with id:%d removed\n", obj_timeout[PROGRESS]);
-
       g_source_remove(obj_timeout[PROGRESS]);
     }
 
     if(obj_timeout[TIMEOUT]){
-      g_print("source timeout with id:%d removed\n", obj_timeout[TIMEOUT]);
-
       g_source_remove(obj_timeout[TIMEOUT]);
     }
 
