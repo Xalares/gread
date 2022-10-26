@@ -44,6 +44,16 @@ gread_number_entry_get_value(GreadNumberEntry *self){
 }
 
 guint
+gread_number_entry_set_digits(GreadNumberEntry *self, guint digits){
+  self->digits = digits;
+}
+
+guint
+gread_number_entry_get_digits(GreadNumberEntry *self){
+  return self->digits;
+}
+
+guint
 gread_number_entry_digits_typed(GreadNumberEntry *self){
   return gtk_text_get_text_length(self->text);
 }

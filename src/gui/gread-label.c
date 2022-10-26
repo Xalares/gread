@@ -85,6 +85,7 @@ gread_label_get_property(GObject *object, guint property_id,
   GreadLabel *self = GREAD_LABEL(object);
 
   switch((GreadLabelProperty) property_id){
+
   case PROP_DIGITS:
     g_value_set_uint(value, self->digits);
     break;
@@ -150,18 +151,12 @@ gread_label_class_init(GreadLabelClass *klass){
 
 static void
 gread_label_init(GreadLabel *self){
-  GValue digits = G_VALUE_INIT;
-
-  g_value_init(&digits, G_TYPE_UINT);
-
-  g_value_set_uint(&digits, 2);
-
-  g_object_set_property(G_OBJECT(self), "digits", &digits);
+  self->digits = 2;
   gtk_widget_init_template(GTK_WIDGET(self));
   gtk_label_set_text(self->label, "Prêt ?");
 }
 
-void
+GreadLabel *
 gread_label_new(const char *text, const guint digits){
-  g_object_new(GREAD_LABEL_TYPE, "text", text, "digits", digits, NULL);
+  return g_object_new(GREAD_LABEL_TYPE, "text", text, "digits", digits, NULL);
 }

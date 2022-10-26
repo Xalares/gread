@@ -18,4 +18,6 @@ guint gread_label_get_digits(GreadLabel *label);
 
 void gread_label_set_digits(GreadLabel *label, guint digits);
 
+GreadLabel * gread_label_new(const char *text, const guint digits);
+
 G_END_DECLS
