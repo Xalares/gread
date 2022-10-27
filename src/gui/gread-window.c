@@ -195,15 +195,21 @@ enter_cb(GreadAppWindow *self){
          gread_label_get_value(self->label)){
 
         gtk_widget_add_css_class(GTK_WIDGET(self->label), "correct");
-      }else{
+
+      }
+      else{
 
         gtk_widget_add_css_class(GTK_WIDGET(self->label), "wrong");
+
       }
 
-      //gtk_widget_grab_focus(self->button_next);
+      gtk_widget_grab_focus(self->button_next);
+
     }else{
+
       gtk_widget_error_bell(GTK_WIDGET(self->number_entry));
     }
+
   }
 }
 
