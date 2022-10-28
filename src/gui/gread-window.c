@@ -125,6 +125,7 @@ start_cb(GreadAppWindow *win){
 
   if(!win->start){
     win->start = true;
+    gread_menu_lock(win->menu_button);
     gtk_widget_set_visible(GTK_WIDGET(win->label), false);
     gread_label_roll(win->label);
     gtk_widget_set_visible(GTK_WIDGET(win->button_next), true);
@@ -303,8 +304,6 @@ gread_app_window_init(GreadAppWindow *self){
   self->digits = 2;
 
   gtk_widget_init_template(GTK_WIDGET(self));
-
-  gread_menu_set_window(self->menu_button, self);
 
   g_signal_connect_swapped(self->number_entry, "invalid-char",
                            G_CALLBACK(gtk_widget_error_bell), self);
