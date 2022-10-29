@@ -16,7 +16,7 @@ struct _GreadAppWindow {
   GtkWidget *digit_selector;
   GreadLabel *label;
   GtkLabel *greeting_label;
-  GtkLabel *try_number_label;
+  GtkLabel *score_label;
   GreadNumberEntry *number_entry;
   GtkButton *button_start;
   GtkButton *button_next;
@@ -48,6 +48,13 @@ static guint obj_timeout[N_TIMEOUT] = {0, };
 
 G_DEFINE_TYPE (GreadAppWindow, gread_app_window, ADW_TYPE_APPLICATION_WINDOW)
 
+
+static void
+gread_app_window_update_score(GreadAppWindow *self){
+  char * str = malloc(20*sizeof(char));
+  sprintf(str, "Score : %d/%d",self->result,self->try_number);
+  gtk_label_set_text(self->score_label, str);
+}
 
 static void
 gread_app_window_set_property(GObject *object, guint property_id,
@@ -126,34 +133,37 @@ progress(GreadAppWindow *self){
 
 //callbacks
 static void
-start_cb(GreadAppWindow *win){
+start_cb(GreadAppWindow *self){
 
-  if(!win->start){
+  if(!self->start){
 
-    win->start = true;
-    win->try_number = 1;
+    self->start = true;
+    self->try_number = 1;
 
-    gtk_widget_set_visible(GTK_WIDGET(win->progress_bar), true);
-    gtk_widget_set_visible(GTK_WIDGET(win->try_number_label), true);
-    gtk_widget_set_visible(GTK_WIDGET(win->button_next), true);
-    gtk_widget_set_visible(GTK_WIDGET(win->greeting_label), false);
+    gtk_widget_set_visible(GTK_WIDGET(self->progress_bar), true);
+    gtk_widget_set_visible(GTK_WIDGET(self->score_label), true);
+    gtk_widget_set_visible(GTK_WIDGET(self->button_next), true);
+    gtk_widget_set_visible(GTK_WIDGET(self->greeting_label), false);
 
-    gtk_widget_set_sensitive(GTK_WIDGET(win->button_next), false);
-    gread_menu_lock(win->menu_button);
-    gread_label_roll(win->label);
+    gtk_widget_set_sensitive(GTK_WIDGET(self->button_next), false);
+    gread_menu_lock(self->menu_button);
+    gread_label_roll(self->label);
+    gread_app_window_update_score(self);
 
-    gtk_button_set_label(win->button_start, "Stop");
-    obj_timeout[PROGRESS] = g_timeout_add(win->prog_step, G_SOURCE_FUNC(progress), win);
+    gtk_button_set_label(self->button_start, "Stop");
+    obj_timeout[PROGRESS] = g_timeout_add(self->prog_step, G_SOURCE_FUNC(progress), self);
 
   }else{
 
-    win->start = false;
-    gread_menu_unlock(win->menu_button);
-    gtk_widget_set_visible(GTK_WIDGET(win->progress_bar), false);
-    gtk_button_set_label(win->button_start,"Start");
+    self->start = false;
+    gread_menu_unlock(self->menu_button);
+    gtk_widget_set_visible(GTK_WIDGET(self->progress_bar), false);
+    gtk_button_set_label(self->button_start,"Start");
 
-    win->progress = 0.0;
-    gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(win->progress_bar), 0.0);
+    self->result = 0;
+
+    self->progress = 0.0;
+    gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(self->progress_bar), 0.0);
 
     if(obj_timeout[PROGRESS]){
       g_source_remove(obj_timeout[PROGRESS]);
@@ -163,25 +173,23 @@ start_cb(GreadAppWindow *win){
       g_source_remove(obj_timeout[TIMEOUT]);
     }
 
-    if(gtk_widget_is_visible(GTK_WIDGET(win->number_entry))){
-      gtk_widget_set_visible(GTK_WIDGET(win->number_entry), false);
+    if(gtk_widget_is_visible(GTK_WIDGET(self->number_entry))){
+      gtk_widget_set_visible(GTK_WIDGET(self->number_entry), false);
     }
 
-    if(gtk_widget_is_visible(GTK_WIDGET(win->label))){
-      gtk_widget_set_visible(GTK_WIDGET(win->label), false);
+    if(gtk_widget_is_visible(GTK_WIDGET(self->label))){
+      gtk_widget_set_visible(GTK_WIDGET(self->label), false);
     }
 
-    if(gtk_widget_is_visible(GTK_WIDGET(win->try_number_label))){
-      gtk_widget_set_visible(GTK_WIDGET(win->try_number_label), true);
+    if(gtk_widget_is_visible(GTK_WIDGET(self->score_label))){
+      gtk_widget_set_visible(GTK_WIDGET(self->score_label), false);
     }
 
-    float r = (float) win->result / (float) win->try_number;
-    g_print("pourcentage %f, %d/%d\n", r, win->result, win->try_number);
-    gread_number_entry_clear(win->number_entry);
-    gtk_widget_remove_css_class(GTK_WIDGET(win->label), "correct");
-    gtk_widget_remove_css_class(GTK_WIDGET(win->label), "wrong");
-    gtk_widget_set_visible(GTK_WIDGET(win->greeting_label), true);
-    gtk_widget_set_visible(GTK_WIDGET(win->button_next), false);
+    gread_number_entry_clear(self->number_entry);
+    gtk_widget_remove_css_class(GTK_WIDGET(self->label), "correct");
+    gtk_widget_remove_css_class(GTK_WIDGET(self->label), "wrong");
+    gtk_widget_set_visible(GTK_WIDGET(self->greeting_label), true);
+    gtk_widget_set_visible(GTK_WIDGET(self->button_next), false);
   }
 }
 
@@ -193,6 +201,7 @@ next_cb(GreadAppWindow *self){
   gtk_widget_remove_css_class(GTK_WIDGET (self->label), "wrong");
   gtk_widget_set_visible(GTK_WIDGET(self->number_entry), false);
   gtk_widget_set_visible(GTK_WIDGET(self->progress_bar), true);
+
 
   gread_label_roll(self->label);
   gtk_widget_set_visible(GTK_WIDGET(self->label), false);
@@ -222,8 +231,10 @@ enter_cb(GreadAppWindow *self){
         gtk_widget_add_css_class(GTK_WIDGET(self->label), "wrong");
 
       }
+      gread_app_window_update_score(self);
       self->try_number += 1;
-      gtk_widget_grab_focus(self->button_next);
+      gtk_widget_grab_focus(GTK_WIDGET(self->button_next));
+
 
     }else{
 
@@ -307,7 +318,7 @@ gread_app_window_class_init(GreadAppWindowClass *klass){
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, bottom_box);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, label);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, greeting_label);
-  gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, try_number_label);
+  gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, score_label);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, number_entry);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, button_start);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, button_next);
@@ -329,6 +340,8 @@ gread_app_window_init(GreadAppWindow *self){
   self->result = 0;
 
   gtk_widget_init_template(GTK_WIDGET(self));
+  gread_app_window_update_score(self);
+
 
   g_signal_connect_swapped(self->number_entry, "invalid-char",
                            G_CALLBACK(gtk_widget_error_bell), self);
