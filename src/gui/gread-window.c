@@ -10,16 +10,21 @@ struct _GreadAppWindow {
   GreadMenu *menu_button;
   GtkWidget *main_box;
   GtkWidget *content_box;
+  GtkWidget *top_box;
   GtkWidget *bottom_box;
   GtkWidget *progress_bar;
   GtkWidget *digit_selector;
   GreadLabel *label;
+  GtkLabel *greeting_label;
+  GtkLabel *try_number_label;
   GreadNumberEntry *number_entry;
   GtkButton *button_start;
   GtkButton *button_next;
 
   gdouble progress;
+  guint result;
   guint prog_step;
+  guint try_number;
   guint display_time;
   guint digits;
   gboolean start;
@@ -124,20 +129,27 @@ static void
 start_cb(GreadAppWindow *win){
 
   if(!win->start){
+
     win->start = true;
-    gread_menu_lock(win->menu_button);
-    gtk_widget_set_visible(GTK_WIDGET(win->label), false);
-    gread_label_roll(win->label);
+    win->try_number = 1;
+
+    gtk_widget_set_visible(GTK_WIDGET(win->progress_bar), true);
+    gtk_widget_set_visible(GTK_WIDGET(win->try_number_label), true);
     gtk_widget_set_visible(GTK_WIDGET(win->button_next), true);
+    gtk_widget_set_visible(GTK_WIDGET(win->greeting_label), false);
+
     gtk_widget_set_sensitive(GTK_WIDGET(win->button_next), false);
+    gread_menu_lock(win->menu_button);
+    gread_label_roll(win->label);
 
     gtk_button_set_label(win->button_start, "Stop");
-    gtk_widget_set_visible(win->progress_bar, true);
     obj_timeout[PROGRESS] = g_timeout_add(win->prog_step, G_SOURCE_FUNC(progress), win);
 
   }else{
+
     win->start = false;
-    gtk_widget_set_visible(win->progress_bar, false);
+    gread_menu_unlock(win->menu_button);
+    gtk_widget_set_visible(GTK_WIDGET(win->progress_bar), false);
     gtk_button_set_label(win->button_start,"Start");
 
     win->progress = 0.0;
@@ -155,13 +167,20 @@ start_cb(GreadAppWindow *win){
       gtk_widget_set_visible(GTK_WIDGET(win->number_entry), false);
     }
 
-    if(!gtk_widget_is_visible(GTK_WIDGET(win->label))){
-      gtk_widget_set_visible(GTK_WIDGET(win->label), true);
+    if(gtk_widget_is_visible(GTK_WIDGET(win->label))){
+      gtk_widget_set_visible(GTK_WIDGET(win->label), false);
     }
+
+    if(gtk_widget_is_visible(GTK_WIDGET(win->try_number_label))){
+      gtk_widget_set_visible(GTK_WIDGET(win->try_number_label), true);
+    }
+
+    float r = (float) win->result / (float) win->try_number;
+    g_print("pourcentage %f, %d/%d\n", r, win->result, win->try_number);
     gread_number_entry_clear(win->number_entry);
     gtk_widget_remove_css_class(GTK_WIDGET(win->label), "correct");
     gtk_widget_remove_css_class(GTK_WIDGET(win->label), "wrong");
-    gread_label_set_text(win->label, "Prêt ?");
+    gtk_widget_set_visible(GTK_WIDGET(win->greeting_label), true);
     gtk_widget_set_visible(GTK_WIDGET(win->button_next), false);
   }
 }
@@ -194,7 +213,7 @@ enter_cb(GreadAppWindow *self){
 
       if(gread_number_entry_get_value(self->number_entry) ==
          gread_label_get_value(self->label)){
-
+        self->result += 1;
         gtk_widget_add_css_class(GTK_WIDGET(self->label), "correct");
 
       }
@@ -203,7 +222,7 @@ enter_cb(GreadAppWindow *self){
         gtk_widget_add_css_class(GTK_WIDGET(self->label), "wrong");
 
       }
-
+      self->try_number += 1;
       gtk_widget_grab_focus(self->button_next);
 
     }else{
@@ -284,8 +303,11 @@ gread_app_window_class_init(GreadAppWindowClass *klass){
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, menu_button);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, content_box);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, progress_bar);
+  gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, top_box);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, bottom_box);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, label);
+  gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, greeting_label);
+  gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, try_number_label);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, number_entry);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, button_start);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, button_next);
@@ -296,12 +318,15 @@ gread_app_window_init(GreadAppWindow *self){
   g_type_ensure(GREAD_MENU_TYPE);
   g_type_ensure(GREAD_LABEL_TYPE);
   g_type_ensure(GREAD_NUMBER_ENTRY_TYPE);
-
+  time_t t;
+  srand((unsigned) time(&t));
   self->start = false;
+  self->try_number = 0;
   self->display_time = 500;
   self->prog_step = 175;
   self->progress = 0.0;
   self->digits = 2;
+  self->result = 0;
 
   gtk_widget_init_template(GTK_WIDGET(self));
 

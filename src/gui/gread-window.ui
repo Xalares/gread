@@ -18,54 +18,85 @@
           </object>
         </child>
         <child>
-        <object class="GtkBox" id="content_box">
-          <property name="orientation">vertical</property>
-          <property name="vexpand">true</property>
-          <property name="homogeneous">true</property>
-          <child>
-            <object class="GreadLabel" id="label">
-              <property name="visible">true</property>
-            </object>
-          </child>
-          <child>
-            <object class="GreadNumberEntry" id="number_entry">
-              <property name="visible">false</property>
-            </object>
-          </child>
-          <child>
-            <object class="GtkProgressBar" id="progress_bar">
-              <property name="visible">false</property>
-              <property name="halign">GTK_ALIGN_CENTER</property>
-              <property name="valign">GTK_ALIGN_CENTER</property>
-              <property name="width-request">750</property>
-            </object>
-          </child>
-          <child>
-            <object class="GtkBox" id="bottom_box">
-              <property name="orientation">horizontal</property>
-              <property name="homogeneous">true</property>
-              <child>
-                <object class="GtkButton" id="button_next">
-                  <property name="visible">false</property>
-                  <property name="halign">GTK_ALIGN_CENTER</property>
-                  <property name="valign">GTK_ALIGN_CENTER</property>
-                  <property name="label">Next</property>
-                  <property name="width-request">200</property>
-                  <property name="height-request">75</property>
-                </object>
-              </child>
-              <child>
-                <object class="GtkButton" id="button_start">
-                  <property name="halign">GTK_ALIGN_CENTER</property>
-                  <property name="valign">GTK_ALIGN_CENTER</property>
-                  <property name="label">Start</property>
-                  <property name="width-request">200</property>
-                  <property name="height-request">75</property>
-                </object>
-              </child>
-            </object>
-          </child>
-        </object>
+
+          <object class="GtkBox" id="content_box">
+            <property name="orientation">vertical</property>
+            <property name="vexpand">true</property>
+            <property name="homogeneous">true</property>
+            <child>
+
+              <object class="GtkBox" id="top_box">
+                <property name="orientation">horizontal</property>
+                <property name="hexpand">true</property>
+                <property name="homogeneous">false</property>
+                
+                <child>
+                  <object class="GtkLabel" id="try_number_label">
+                    <property name="label">1</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GreadLabel" id="label">
+                    <property name="visible">false</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkLabel" id="greeting_label">
+                    <property name="label">Prêt ?</property>
+                    <style>
+                      <class name="label"/>
+                    </style>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GreadNumberEntry" id="number_entry">
+                    <property name="visible">false</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkProgressBar" id="progress_bar">
+                    <property name="visible">false</property>
+                    <property name="halign">GTK_ALIGN_CENTER</property>
+                    <property name="valign">GTK_ALIGN_CENTER</property>
+                    <property name="width-request">750</property>
+                  </object>
+                </child>
+                
+              </object>
+
+            </child>
+            <child>
+
+              <object class="GtkBox" id="bottom_box">
+                <property name="orientation">horizontal</property>
+                <property name="homogeneous">true</property>
+                <child>
+                  <object class="GtkButton" id="button_next">
+                    <property name="visible">false</property>
+                    <property name="halign">GTK_ALIGN_CENTER</property>
+                    <property name="valign">GTK_ALIGN_CENTER</property>
+                    <property name="label">Next</property>
+                    <property name="width-request">200</property>
+                    <property name="height-request">75</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton" id="button_start">
+                    <property name="halign">GTK_ALIGN_CENTER</property>
+                    <property name="valign">GTK_ALIGN_CENTER</property>
+                    <property name="label">Start</property>
+                    <property name="width-request">200</property>
+                    <property name="height-request">75</property>
+                  </object>
+                </child>
+              </object>
+
+            </child>
+          </object>
         </child>
       </object>
     </child>

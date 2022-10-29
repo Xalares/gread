@@ -120,7 +120,7 @@ gread_menu_unlock(GreadMenu *self){
   GValue value = G_VALUE_INIT;
   g_value_init(&value, G_TYPE_BOOLEAN);
   g_value_set_boolean(&value, false);
-  g_object_set_property(G_OBJECT(self), "locked", false);
+  g_object_set_property(G_OBJECT(self), "locked", &value);
 }
 
 gboolean
