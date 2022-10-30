@@ -21,6 +21,7 @@ struct _GreadAppWindow {
   GtkButton *button_start;
   GtkButton *button_next;
 
+  time_t time;
   gdouble progress;
   guint result;
   guint prog_step;
@@ -54,6 +55,11 @@ gread_app_window_update_score(GreadAppWindow *self){
   char * str = malloc(20*sizeof(char));
   sprintf(str, "Score : %d/%d",self->result,self->try_number);
   gtk_label_set_text(self->score_label, str);
+}
+
+static void
+gread_app_window_update_random_seed(GreadAppWindow *self){
+  srand((unsigned) time(&self->time));
 }
 
 static void
@@ -161,9 +167,10 @@ start_cb(GreadAppWindow *self){
     gtk_button_set_label(self->button_start,"Start");
 
     self->result = 0;
-
     self->progress = 0.0;
     gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(self->progress_bar), 0.0);
+    gread_app_window_update_random_seed(self);
+
 
     if(obj_timeout[PROGRESS]){
       g_source_remove(obj_timeout[PROGRESS]);
@@ -207,6 +214,9 @@ next_cb(GreadAppWindow *self){
   gtk_widget_set_visible(GTK_WIDGET(self->label), false);
   gtk_widget_set_visible(GTK_WIDGET(self->progress_bar), true);
   gtk_widget_set_sensitive(GTK_WIDGET(self->button_next), false);
+  if(obj_timeout[TIMEOUT]){
+    g_source_remove(obj_timeout[TIMEOUT]);
+  }
   g_timeout_add(self->prog_step, G_SOURCE_FUNC(progress), self);
 }
 
@@ -329,8 +339,8 @@ gread_app_window_init(GreadAppWindow *self){
   g_type_ensure(GREAD_MENU_TYPE);
   g_type_ensure(GREAD_LABEL_TYPE);
   g_type_ensure(GREAD_NUMBER_ENTRY_TYPE);
-  time_t t;
-  srand((unsigned) time(&t));
+
+  srand((unsigned) time(&self->time));
   self->start = false;
   self->try_number = 0;
   self->display_time = 500;
