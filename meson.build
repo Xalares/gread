@@ -8,14 +8,17 @@ project('gread', 'c',
                    ],
 )
 
-cc = meson.get_compiler('c')
-gtk_dep = dependency('gtk4', version:'>=4.8.1')
+cc             = meson.get_compiler('c')
+gtk_dep        = dependency('gtk4', version:'>=4.8.1')
 libadwaita_dep = dependency('libadwaita-1', version:'>=1.2.0')
-m_dep = cc.find_library('m')
+m_dep          = cc.find_library('m')
 
+i18n  = import('i18n');
 gnome = import('gnome')
 
 top_inc = include_directories('.')
-src_inc = join_paths(meson.project_source_root(), 'src')
 
+src_inc = join_paths(meson.project_source_root(), 'src')
+po_in   = join_paths(meson.project_source_root(), 'po')
+data_in = join_paths(meson.project_source_root(), 'data')
 subdir('src')

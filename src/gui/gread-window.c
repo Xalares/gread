@@ -1,4 +1,6 @@
 #include <gtk/gtk.h>
+#include <glib/gi18n.h>
+
 #include "gread-label.h"
 #include "gread-window.h"
 #include "gread-menu.h"
