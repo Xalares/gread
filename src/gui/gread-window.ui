@@ -30,6 +30,7 @@
 
                 <child type="start">
                   <object class="GtkLabel" id="score_label">
+                    <property name="label" translatable="yes">score</property>
                     <property name="visible">false</property>
                     <property name="margin-top">5</property>
                     <property name="margin-start">5</property>
@@ -48,7 +49,7 @@
                     
                     <child>
                       <object class="GtkLabel" id="greeting_label">
-                        <property name="label" translatable="yes">Prêt ?</property>
+                        <property name="label" translatable="yes">Ready ?</property>
                         <style>
                           <class name="label"/>
                         </style>

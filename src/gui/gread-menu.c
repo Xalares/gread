@@ -1,5 +1,7 @@
 #include <gtk/gtk.h>
 #include <adwaita.h>
+#include <glib/gi18n-lib.h>
+
 #include "gread-window.h"
 #include "gread-menu.h"
 

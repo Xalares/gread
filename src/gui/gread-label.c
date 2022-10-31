@@ -1,6 +1,7 @@
 #include <math.h>
 #include <gtk/gtk.h>
 #include <adwaita.h>
+#include <glib/gi18n-lib.h>
 
 #include "gread-label.h"
 

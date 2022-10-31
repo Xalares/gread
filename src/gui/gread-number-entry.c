@@ -1,4 +1,5 @@
 #include <gtk/gtk.h>
+#include <glib/gi18n-lib.h>
 #include <adwaita.h>
 #include <string.h>
 

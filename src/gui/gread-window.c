@@ -1,5 +1,5 @@
 #include <gtk/gtk.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 #include "gread-label.h"
 #include "gread-window.h"
@@ -55,7 +55,7 @@ G_DEFINE_TYPE (GreadAppWindow, gread_app_window, ADW_TYPE_APPLICATION_WINDOW)
 static void
 gread_app_window_update_score(GreadAppWindow *self){
   gchar * str = malloc(20*sizeof(gchar));
-  sprintf(str, "Score : %d/%d",self->result,self->try_number);
+  sprintf(str, "%s : %d/%d",gettext("score"),self->result,self->try_number);
   gtk_label_set_text(self->score_label, str);
   g_free(str);
 }
@@ -159,7 +159,7 @@ start_cb(GreadAppWindow *self){
     gread_label_roll(self->label);
     gread_app_window_update_score(self);
 
-    gtk_button_set_label(self->button_start, "Stop");
+    gtk_button_set_label(self->button_start, gettext("Stop"));
     obj_timeout[PROGRESS] = g_timeout_add(self->prog_step, G_SOURCE_FUNC(progress), self);
 
   }else{
@@ -167,7 +167,7 @@ start_cb(GreadAppWindow *self){
     self->start = false;
     gread_menu_unlock(self->menu_button);
     gtk_widget_set_visible(GTK_WIDGET(self->progress_bar), false);
-    gtk_button_set_label(self->button_start,"Start");
+    gtk_button_set_label(self->button_start, gettext("Start"));
 
     self->result = 0;
     self->progress = 0.0;

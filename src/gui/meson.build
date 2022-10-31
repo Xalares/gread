@@ -1,4 +1,4 @@
-gread_incs = include_directories('.')
+gread_incs += include_directories('.')
 
 built_sources += gnome.compile_resources(
   'gui-resources',

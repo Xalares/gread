@@ -51,7 +51,7 @@
 
             <child>
               <object class="GtkLabel">
-                <property name="label" translatable="yes">Digits number</property>
+                <property name="label" translatable="yes">Number of digits to display</property>
               </object>
             </child>
           </object>
