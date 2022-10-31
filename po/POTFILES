@@ -1,0 +1,6 @@
+# List of source files containing translatable strings.
+# Please keep this file sorted alphabetically.
+src/gui/gread-menu.c
+src/gui/gread-menu.ui
+src/gui/gread-window.c
+src/gui/gread-window.ui

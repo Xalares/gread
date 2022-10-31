@@ -55,7 +55,7 @@ G_DEFINE_TYPE (GreadAppWindow, gread_app_window, ADW_TYPE_APPLICATION_WINDOW)
 static void
 gread_app_window_update_score(GreadAppWindow *self){
   gchar * str = malloc(20*sizeof(gchar));
-  sprintf(str, "%s : %d/%d",gettext("score"),self->result,self->try_number);
+  sprintf(str, "%s : %d/%d",gettext("Score"),self->result,self->try_number);
   gtk_label_set_text(self->score_label, str);
   g_free(str);
 }

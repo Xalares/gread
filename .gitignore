@@ -11,6 +11,7 @@
 
 /subprojects
 !/po/LINGUAS
+!/po/POTFILES
 !.gitignore
 *.txt
 GPATH
