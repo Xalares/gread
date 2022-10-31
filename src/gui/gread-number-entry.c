@@ -91,6 +91,7 @@ insert_text_handler(GtkEditable *editable, const char *text, int length,
   if(text_length == self->digits){
     g_signal_emit(self, obj_signal[SIG_LIMIT_REACHED], 0);
   }
+
   g_signal_handlers_unblock_by_func(editable, (gpointer)insert_text_handler, data);
 
   g_signal_stop_emission_by_name(editable, "insert_text");

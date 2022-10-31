@@ -54,9 +54,10 @@ G_DEFINE_TYPE (GreadAppWindow, gread_app_window, ADW_TYPE_APPLICATION_WINDOW)
 
 static void
 gread_app_window_update_score(GreadAppWindow *self){
-  char * str = malloc(20*sizeof(char));
+  gchar * str = malloc(20*sizeof(gchar));
   sprintf(str, "Score : %d/%d",self->result,self->try_number);
   gtk_label_set_text(self->score_label, str);
+  g_free(str);
 }
 
 static void
@@ -270,15 +271,6 @@ gread_app_window_set_display_time(GreadAppWindow *self, guint display_time){
 
 static void
 gread_app_window_dispose(GObject *object){
-  GreadAppWindow *self = GREAD_APP_WINDOW(object);
-
-  g_clear_pointer(&self->label, gtk_widget_unparent);
-  g_clear_pointer(&self->number_entry, gtk_widget_unparent);
-  g_clear_pointer(&self->button_next, gtk_widget_unparent);
-  g_clear_pointer(&self->button_start, gtk_widget_unparent);
-  g_clear_pointer(&self->progress_bar, gtk_widget_unparent);
-  g_clear_pointer(&self->header_bar, gtk_widget_unparent);
-
   G_OBJECT_CLASS(gread_app_window_parent_class)->dispose(object);
 }
 
