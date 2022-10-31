@@ -1,0 +1,19 @@
+#: src/gui/gread-menu.ui:54
+msgid "Digits number"
+msgstr ""
+
+#: src/gui/gread-menu.ui:85
+msgid "Display time (ms)"
+msgstr ""
+
+#: src/gui/gread-window.ui:51
+msgid "Prt ?"
+msgstr ""
+
+#: src/gui/gread-window.ui:88
+msgid "Next"
+msgstr ""
+
+#: src/gui/gread-window.ui:97
+msgid "Start"
+msgstr ""

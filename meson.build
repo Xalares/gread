@@ -22,11 +22,16 @@ m_dep          = cc.find_library('m')
 i18n  = import('i18n')
 gnome = import('gnome')
 
+# define GETTEXT_PACKAGE
+
+add_project_arguments('-DGETTEXT_PACKAGE="gread"', language:'c')
+
 top_inc = include_directories('.')
 
 src_inc  = join_paths(meson.project_source_root(), 'src')
 po_inc   = join_paths(meson.project_source_root(), 'po')
 data_inc = join_paths(meson.project_source_root(), 'data')
+
 subdir('src')
 subdir('po')
-#subdir('data')
+subdir('data')
