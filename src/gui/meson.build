@@ -1,4 +1,4 @@
-gread_incs = include_directories('.')
+gread_incs += include_directories('.')
 
 built_sources += gnome.compile_resources(
   'gui-resources',
@@ -11,4 +11,5 @@ sources += files(
   'gread-window.c',
   'gread-label.c',
   'gread-number-entry.c',
+  'gread-menu.c',
 )

@@ -10,6 +10,8 @@
 ### Above combination will ignore all files without extenson ###
 
 /subprojects
+!/po/LINGUAS
+!/po/POTFILES
 !.gitignore
 *.txt
 GPATH

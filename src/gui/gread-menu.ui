@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GreadMenu" parent="AdwBin">
+    <child>
+      <object class="GtkMenuButton" id="menu_button">
+        <property name="valign">3</property>
+        <property name="focus-on-click">0</property>
+        <property name="popover">popover</property>
+        <!--<property name="icon-name"></property>-->
+      </object>
+    </child>
+  </template>
+
+  <menu id="menu">
+    <section>
+      <item>
+        <attribute name="custom">digits-number</attribute>
+      </item>
+    </section>
+  </menu>
+
+  <object class="GtkPopoverMenu" id="popover">
+    <property name="menu-model">menu</property>
+    <child type="digits-number">
+
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">horizontal</property>
+            <property name="margin-top">12</property>
+            <property name="margin-bottom">12</property>
+            <property name="margin-end">12</property>
+            <property name="margin-start">12</property>
+            
+            <property name="spacing">12</property>
+            <child>
+              <object class="GtkSpinButton" id="digits_spin">
+                <property name="adjustment">
+                  <object class="GtkAdjustment">
+                    <property name="upper">6</property>
+                    <property name="lower">1</property>
+                    <property name="value">2</property>
+                    <property name="step-increment">1</property>
+                    <property name="page-increment">2</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkLabel">
+                <property name="label" translatable="yes">Number of digits to display</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">horizontal</property>
+            <property name="margin-top">12</property>
+            <property name="margin-bottom">12</property>
+            <property name="margin-end">12</property>
+            <property name="margin-start">12</property>
+            
+            <property name="spacing">12</property>
+            <child>
+              <object class="GtkSpinButton" id="display_time_spin">
+                <property name="adjustment">
+                  <object class="GtkAdjustment">
+                    <property name="upper">700</property>
+                    <property name="lower">70</property>
+                    <property name="value">500</property>
+                    <property name="step-increment">10</property>
+                    <property name="page-increment">20</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkLabel">
+                <property name="label" translatable="yes">Display time (ms)</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

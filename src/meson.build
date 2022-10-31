@@ -8,7 +8,7 @@ gread_deps = [
 
 gread_incs = [
   top_inc,
-  include_directories('.'),
+  src_inc,
 ]
 
 sources = files()
@@ -39,5 +39,5 @@ executable(meson.project_name(),
            files('main.c'),
            dependencies: libgread_dep,
            install: true,
-           install_dir: meson.project_source_root(),
+           install_dir: gread_bindir,
           )

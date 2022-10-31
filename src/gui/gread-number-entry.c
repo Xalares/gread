@@ -1,4 +1,5 @@
 #include <gtk/gtk.h>
+#include <glib/gi18n-lib.h>
 #include <adwaita.h>
 #include <string.h>
 
@@ -24,7 +25,7 @@ typedef enum {
   N_SIGNAL
 } GreadNumberEntrySignal;
 
-static guint *obj_signal[N_SIGNAL] = {NULL, };
+static guint obj_signal[N_SIGNAL] = {0, };
 static GParamSpec *obj_properties[N_PROPERTIES] = {NULL, };
 static void gread_number_entry_editable_init (GtkEditableInterface *iface);
 
@@ -44,13 +45,24 @@ gread_number_entry_get_value(GreadNumberEntry *self){
 }
 
 guint
+gread_number_entry_set_digits(GreadNumberEntry *self, guint digits){
+  gtk_editable_set_width_chars(self, digits);
+  self->digits = digits;
+}
+
+guint
+gread_number_entry_get_digits(GreadNumberEntry *self){
+  return self->digits;
+}
+
+guint
 gread_number_entry_digits_typed(GreadNumberEntry *self){
-  gtk_text_get_text_length(self->text);
+  return gtk_text_get_text_length(self->text);
 }
 
 static void
 grab_focus(GreadNumberEntry *self){
-  gtk_widget_grab_focus(self->text);
+  gtk_widget_grab_focus(GTK_WIDGET(self->text));
 }
 
 static void
@@ -72,7 +84,7 @@ insert_text_handler(GtkEditable *editable, const char *text, int length,
       self->value = strtoul(gtk_editable_get_text(editable), NULL, 10);
 
     }else{
-      *invalid_char = NULL;
+      *invalid_char = 0;
       g_signal_emit(self, obj_signal[SIG_INVALID_CHAR], 0);
 
     }
@@ -80,6 +92,7 @@ insert_text_handler(GtkEditable *editable, const char *text, int length,
   if(text_length == self->digits){
     g_signal_emit(self, obj_signal[SIG_LIMIT_REACHED], 0);
   }
+
   g_signal_handlers_unblock_by_func(editable, (gpointer)insert_text_handler, data);
 
   g_signal_stop_emission_by_name(editable, "insert_text");
@@ -89,9 +102,11 @@ static void
 delete_text_handler(GtkEditable *editable, int start_pos, int end_pos, gpointer data){
 
   g_signal_handlers_block_by_func(editable, (gpointer)delete_text_handler, data);
+
   GreadNumberEntry *self = GREAD_NUMBER_ENTRY(data);
   gtk_editable_delete_text(editable, start_pos, end_pos);
   self->value = (guint) strtoul(gtk_editable_get_text(editable), NULL, 10);
+
   g_signal_handlers_unblock_by_func(editable, (gpointer)delete_text_handler, data);
   g_signal_stop_emission_by_name(editable, "delete_text");
 }
@@ -101,6 +116,7 @@ key_pressed_handler(GtkEventControllerKey *controller, guint keyval,
                     guint keycode, GdkModifierType state, GreadNumberEntry *self){
   if(keyval == GDK_KEY_Return){
     g_signal_emit(self, obj_signal[ENTER_PRESSED], 0);
+    return true;
   }
   return false;
 }
