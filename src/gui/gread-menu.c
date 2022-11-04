@@ -63,7 +63,6 @@ gread_menu_set_property(GObject *object, guint property_id,
     if(self->locked){
       gtk_widget_set_sensitive(GTK_WIDGET(self->digits_spin), false);
       gtk_widget_set_sensitive(GTK_WIDGET(self->display_time_spin), false);
-
       break;
     }
 
