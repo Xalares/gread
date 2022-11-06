@@ -12,4 +12,5 @@ sources += files(
   'gread-label.c',
   'gread-number-entry.c',
   'gread-menu.c',
+  'gread-random-number-activity.c',
 )

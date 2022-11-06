@@ -7,7 +7,7 @@
 
 struct _GreadMenu {
   AdwBin parent;
-  GreadAppWindow *window;
+  GtkWidget *activity;
   GtkMenuButton *menu_button;
   GtkPopoverMenu *menu;
   GtkSpinButton *digits_spin;
@@ -18,7 +18,7 @@ struct _GreadMenu {
 };
 
 typedef enum {
-  PROP_WINDOW = 1,
+  PROP_ACTIVITY = 1,
   PROP_LOCKED,
   N_PROPERTIES,
 } GreadMenuProperty;
@@ -30,17 +30,17 @@ G_DEFINE_TYPE(GreadMenu, gread_menu, ADW_TYPE_BIN)
 //calbacks
 static void
 gread_menu_digits_changed(GtkSpinButton *button, GreadMenu *self){
-  self->window  = GREAD_APP_WINDOW(gtk_widget_get_root(GTK_WIDGET(self)));
-  g_assert(GREAD_APP_WINDOW_TYPE == G_OBJECT_TYPE(self->window));
-  gread_app_window_set_digits(self->window,
+  self->activity  = GREAD_RANDOM_NUMBER_ACTIVITY(gtk_widget_get_root(GTK_WIDGET(self)));
+  g_assert(GREAD_RANDOM_NUMBER_ACTIVITY_TYPE == G_OBJECT_TYPE(self->activity));
+  gread_random_number_activity_set_digits(self->activity,
     (guint)gtk_spin_button_get_value_as_int(button));
 }
 
 static void
 gread_menu_display_time_changed(GtkSpinButton *button, GreadMenu *self){
-  self->window  = GREAD_APP_WINDOW(gtk_widget_get_root(GTK_WIDGET(self)));
-  g_assert(GREAD_APP_WINDOW_TYPE == G_OBJECT_TYPE(self->window));
-  gread_app_window_set_display_time(self->window,
+  self->activity  = GREAD_RANDOM_NUMBER_ACTIVITY(gtk_widget_get_root(GTK_WIDGET(self)));
+  g_assert(GREAD_RANDOM_NUMBER_ACTIVITY_TYPE == G_OBJECT_TYPE(self->activity));
+  gread_random_number_activity_set_display_time(self->activity,
                                     (guint)gtk_spin_button_get_value_as_int(button));
 
 }
@@ -53,8 +53,8 @@ gread_menu_set_property(GObject *object, guint property_id,
 
   switch((GreadMenuProperty) property_id){
 
-  case PROP_WINDOW:
-    self->window = g_value_get_object(value);
+  case PROP_ACTIVITY:
+    self->activity = g_value_get_object(value);
     break;
 
   case PROP_LOCKED:
@@ -87,8 +87,8 @@ gread_menu_get_property(GObject *object, guint property_id,
 
   switch((GreadMenuProperty) property_id){
 
-  case PROP_WINDOW:
-    g_value_set_object(value, self->window);
+  case PROP_ACTIVITY:
+    g_value_set_object(value, self->activity);
     break;
 
   case PROP_LOCKED:
@@ -104,8 +104,8 @@ gread_menu_get_property(GObject *object, guint property_id,
 }
 
 void
-gread_menu_set_window(GreadMenu *self,GreadAppWindow *win){
-  self->window = win;
+gread_menu_set_activity(GreadMenu *self,GreadAppWindow *win){
+  self->activity = win;
 }
 
 void
@@ -136,11 +136,11 @@ gread_menu_class_init(GreadMenuClass *klass){
   GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
 
-  obj_properties[PROP_WINDOW] =
+  obj_properties[PROP_ACTIVITY] =
     g_param_spec_object("window",
                         "Window",
                         "Window for which the parameters are set",
-                        GREAD_APP_WINDOW_TYPE,
+                        GREAD_APP_ACTIVITY_TYPE,
                         G_PARAM_WRITABLE);
 
   obj_properties[PROP_LOCKED] =
@@ -166,7 +166,7 @@ gread_menu_class_init(GreadMenuClass *klass){
 
 static void
 gread_menu_init(GreadMenu *self){
-  g_type_ensure(GREAD_APP_WINDOW_TYPE);
+  g_type_ensure(GREAD_RANDOM_NUMBER_ACTIVITY_TYPE);
 
   gtk_widget_init_template(GTK_WIDGET(self));
 
