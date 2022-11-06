@@ -176,8 +176,3 @@ gread_menu_init(GreadMenu *self){
   g_signal_connect(self->display_time_spin, "value-changed",
                    G_CALLBACK(gread_menu_display_time_changed), self);
 }
-
-GreadMenu *
-gread_menu_new(GreadAppWindow *win){
-  return g_object_new(GREAD_MENU_TYPE, "window", win, NULL);
-}
