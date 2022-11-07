@@ -152,6 +152,7 @@ start_cb(GreadRandomNumberActivity *self){
     gtk_widget_set_visible(GTK_WIDGET(self->score_label), true);
     gtk_widget_set_visible(GTK_WIDGET(self->button_next), true);
     gtk_widget_set_visible(GTK_WIDGET(self->greeting_label), false);
+    gtk_widget_set_visible(GTK_WIDGET(self->menu_button), false);
 
     gtk_widget_set_sensitive(GTK_WIDGET(self->button_next), false);
     gread_menu_lock(self->menu_button);
@@ -166,6 +167,8 @@ start_cb(GreadRandomNumberActivity *self){
     self->start = false;
     gread_menu_unlock(self->menu_button);
     gtk_widget_set_visible(GTK_WIDGET(self->progress_bar), false);
+    gtk_widget_set_visible(GTK_WIDGET(self->menu_button), true);
+
     gtk_button_set_label(self->button_start, gettext("Start"));
 
     self->result = 0;

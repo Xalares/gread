@@ -8,7 +8,6 @@
         <property name="popover">popover</property>
         <property name="visible">true</property>
         <property name="css-classes">circular</property>
-        <property name="css-classes">image-button</property>
         <property name="icon-name">emblem-system-symbolic</property>
       </object>
     </child>
