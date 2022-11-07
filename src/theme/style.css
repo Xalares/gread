@@ -1,6 +1,11 @@
 .label{
     font-size: 100pt;
 }
+
+.introduction{
+    font-size: 20pt;
+}
+
 .correct{
     color:#33cc33;
 }

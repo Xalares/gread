@@ -16,6 +16,9 @@
             <property name="cursor-visible">false</property>
             <property name="buffer">buffer</property>
             <property name="wrap-mode">GTK_WRAP_WORD</property>
+            <style>
+              <class name="introduction"/>
+            </style>
           </object>
         </child>
       </object>
