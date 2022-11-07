@@ -10,14 +10,19 @@
       <object class="GtkBox">
         <property name="orientation">vertical</property>
         <child>
-      <object class="AdwHeaderBar" id="header_bar">
+          <object class="AdwHeaderBar" id="header_bar">
+          </object>
+        </child>
+        <child>
+          <object class="GreadRandomNumberActivity" id="random_activity">
+            <property name="visible">false</property>
+          </object>
+        </child>
+        <child>
+          <object class="GreadIntroduction" id="introduction">
+          </object>
+        </child>
       </object>
     </child>
-    <child>
-      <object class="GreadRandomNumberActivity" id="random_activity">
-      </object>
-    </child>
-      </object>
-    </child>
-      </template>
+  </template>
 </interface>

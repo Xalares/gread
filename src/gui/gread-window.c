@@ -6,11 +6,13 @@
 #include "gread-menu.h"
 #include "gread-number-entry.h"
 #include "gread-random-number-activity.h"
+#include "gread-introduction.h"
 
 struct _GreadAppWindow {
   AdwApplicationWindow parent;
   AdwHeaderBar *header_bar;
-  GreadRandomNumberActivity * random_activity;
+  GreadRandomNumberActivity *random_activity;
+  GreadIntroduction *introduction;
 };
 
 G_DEFINE_TYPE (GreadAppWindow, gread_app_window, ADW_TYPE_APPLICATION_WINDOW)
@@ -38,11 +40,13 @@ gread_app_window_class_init(GreadAppWindowClass *klass){
 
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, header_bar);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, random_activity);
+  gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, introduction);
 }
 
 static void
 gread_app_window_init(GreadAppWindow *self){
   g_type_ensure(GREAD_RANDOM_NUMBER_ACTIVITY_TYPE);
+  g_type_ensure(GREAD_INTRODUCTION_TYPE);
   gtk_widget_init_template(GTK_WIDGET(self));
 
 }

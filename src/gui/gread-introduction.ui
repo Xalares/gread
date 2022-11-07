@@ -2,8 +2,32 @@
 <interface>
   <template class="GreadIntroduction" parent="AdwBin">
     <child>
-      <object class="GtkTextView" id="text_view">
+      <object class="GtkScrolledWindow">
+        <child>
+          <object class="GtkTextView" id="text_view">
+            <property name="right-margin">50</property>
+            <property name="left-margin">50</property>
+            <property name="top-margin">25</property>
+            <property name="bottom-margin">25</property>
+            <property name="editable">false</property>
+            <property name="vexpand">true</property>
+            <property name="vexpand-set">true</property>
+            <property name="can-target">false</property>
+            <property name="cursor-visible">false</property>
+            <property name="buffer">buffer</property>
+            <property name="wrap-mode">GTK_WRAP_WORD</property>
+          </object>
+        </child>
       </object>
     </child>
   </template>
+  <object class="GtkTextBuffer" id="buffer">
+    <property name="text"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam finibus aliquam tellus, vitae ultricies lectus viverra eu. Integer nec lorem efficitur, consequat nunc ut, feugiat erat. Proin viverra diam quis nisl tristique, porta consectetur tortor interdum. Donec faucibus in risus quis tincidunt. Aliquam sit amet lacus vel odio finibus egestas. Quisque fringilla felis a lorem molestie interdum eu ac neque. Vestibulum auctor, dui sit amet sagittis interdum, magna neque consectetur turpis, quis scelerisque mi dui nec sem. Etiam at elementum nulla, non condimentum tortor. Fusce accumsan sollicitudin mi, ut tempus magna semper ac. Pellentesque rutrum sem urna, non blandit leo venenatis a. Praesent ornare turpis eu neque euismod maximus at dignissim enim. Curabitur tristique viverra accumsan.  Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam tincidunt sit amet felis in pharetra. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec sed lectus eget ipsum tincidunt gravida. Mauris non augue ligula. Vivamus quis mi eget libero dictum lacinia vel nec nibh. Ut maximus purus libero, in dignissim dolor dictum at. Vivamus nec ligula ut tortor feugiat vestibulum a ac arcu. Donec non fringilla nibh. Ut auctor ligula massa, non feugiat lectus aliquam nec. Fusce imperdiet sagittis lacinia. Duis porttitor ante in facilisis ultricies. Mauris sodales justo eget augue elementum porta.
+
+Curabitur hendrerit, turpis id porttitor vestibulum, nisl est malesuada odio, eu efficitur nisl sem sed lacus. Vestibulum lacinia interdum nibh, eu rutrum erat rhoncus eu. Donec sodales porttitor dui et tincidunt. Donec a turpis sed nisi imperdiet congue. Pellentesque fermentum diam nec mi laoreet sagittis. Nunc lacinia eros in leo faucibus, a cursus dui rhoncus. Vivamus eu sodales nisi, et blandit quam. Duis blandit mauris sed ultricies convallis. Ut id mi ac magna fermentum ullamcorper. Maecenas risus diam, ultrices vel lectus vel, tempor efficitur ligula.
+
+Ut eu tortor in nibh fringilla malesuada in nec neque. Etiam egestas velit eget lacus pretium, at hendrerit metus pretium. Nullam tristique nec erat vitae congue. Nulla vel vehicula nibh, sed dignissim elit. Integer scelerisque viverra lacus, at pellentesque elit facilisis eget. Maecenas laoreet vitae dolor in feugiat. Pellentesque maximus sit amet justo sed malesuada. Suspendisse luctus placerat luctus. Aliquam eu consectetur augue. Vestibulum non venenatis urna. Donec nec convallis velit. Sed nibh orci, gravida nec efficitur sed, dictum ac turpis.
+
+Pellentesque porta est at leo suscipit sollicitudin. Maecenas vitae lectus ultricies augue auctor pellentesque. Proin sit amet ultrices nibh, ullamcorper condimentum lorem. Duis mattis nisi eget nisl condimentum ultrices. Nullam sed cursus magna. Mauris consequat diam non dignissim imperdiet. Maecenas lectus nibh, accumsan non urna sed, dapibus viverra lectus. Nullam vitae diam sit amet nibh ornare efficitur. Donec facilisis nunc non turpis sagittis tristique. Donec facilisis augue elit, at rhoncus elit egestas ut. Phasellus rhoncus eget sapien vestibulum lobortis. Pellentesque sit amet fringilla est, non ullamcorper enim. Donec blandit rhoncus imperdiet. Pellentesque molestie ex at neque malesuada, iaculis blandit risus placerat. Aliquam quis mi nec risus pulvinar cursus. Nulla nec magna eget tellus faucibus dignissim eget non massa. </property>
+  </object>
 </interface>
