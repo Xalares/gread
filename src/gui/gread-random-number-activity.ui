@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="GreadRandomNumberActivity" parent="AdwBin">
+    <child>
     <object class="GtkBox" id="main_box">
       <property name="orientation">vertical</property>
       <child>
@@ -92,6 +93,7 @@
           </child>
         </object>
       </child>
-    </object> 
+    </object>
+    </child>
   </template>
 </interface>
