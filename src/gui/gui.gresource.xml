@@ -4,6 +4,7 @@
     <file compressed="true">gread-window.ui</file>
     <file compressed="true">gread-label.ui</file>
     <file compressed="true">gread-number-entry.ui</file>
+    <file compressed="true">gread-random-number-activity.ui</file>
     <file compressed="true">gread-menu.ui</file>
   </gresource>
 </gresources>

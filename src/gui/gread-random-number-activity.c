@@ -2,7 +2,6 @@
 #include <glib/gi18n-lib.h>
 
 #include "gread-label.h"
-#include "gread-window.h"
 #include "gread-menu.h"
 #include "gread-random-number-activity.h"
 #include "gread-number-entry.h"
@@ -311,7 +310,7 @@ gread_random_number_activity_class_init(GreadRandomNumberActivityClass *klass){
 
   g_object_class_install_properties(object_class, N_PROPERTIES, obj_properties);
   gtk_widget_class_set_template_from_resource(GTK_WIDGET_CLASS(klass),
-                                              "/org/gnome/gread/gui/gread-window.ui");
+                                              "/org/gnome/gread/gui/gread-random-number-activity.ui");
 
   gtk_widget_class_bind_template_child(widget_class, GreadRandomNumberActivity, main_box);
   gtk_widget_class_bind_template_child(widget_class, GreadRandomNumberActivity, menu_button);

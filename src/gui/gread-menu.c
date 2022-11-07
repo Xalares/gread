@@ -4,10 +4,11 @@
 
 #include "gread-window.h"
 #include "gread-menu.h"
+#include "gread-random-number-activity.h"
 
 struct _GreadMenu {
   AdwBin parent;
-  GtkWidget *activity;
+  GreadRandomNumberActivity *activity;
   GtkMenuButton *menu_button;
   GtkPopoverMenu *menu;
   GtkSpinButton *digits_spin;
@@ -30,7 +31,7 @@ G_DEFINE_TYPE(GreadMenu, gread_menu, ADW_TYPE_BIN)
 //calbacks
 static void
 gread_menu_digits_changed(GtkSpinButton *button, GreadMenu *self){
-  self->activity  = GREAD_RANDOM_NUMBER_ACTIVITY(gtk_widget_get_root(GTK_WIDGET(self)));
+  self->activity = gtk_widget_get_ancestor(GTK_WIDGET(self), GREAD_RANDOM_NUMBER_ACTIVITY_TYPE);
   g_assert(GREAD_RANDOM_NUMBER_ACTIVITY_TYPE == G_OBJECT_TYPE(self->activity));
   gread_random_number_activity_set_digits(self->activity,
     (guint)gtk_spin_button_get_value_as_int(button));
@@ -38,7 +39,7 @@ gread_menu_digits_changed(GtkSpinButton *button, GreadMenu *self){
 
 static void
 gread_menu_display_time_changed(GtkSpinButton *button, GreadMenu *self){
-  self->activity  = GREAD_RANDOM_NUMBER_ACTIVITY(gtk_widget_get_root(GTK_WIDGET(self)));
+  self->activity = gtk_widget_get_ancestor(GTK_WIDGET(self), GREAD_RANDOM_NUMBER_ACTIVITY_TYPE);
   g_assert(GREAD_RANDOM_NUMBER_ACTIVITY_TYPE == G_OBJECT_TYPE(self->activity));
   gread_random_number_activity_set_display_time(self->activity,
                                     (guint)gtk_spin_button_get_value_as_int(button));
@@ -140,7 +141,7 @@ gread_menu_class_init(GreadMenuClass *klass){
     g_param_spec_object("window",
                         "Window",
                         "Window for which the parameters are set",
-                        GREAD_APP_ACTIVITY_TYPE,
+                        GREAD_RANDOM_NUMBER_ACTIVITY_TYPE,
                         G_PARAM_WRITABLE);
 
   obj_properties[PROP_LOCKED] =

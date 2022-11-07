@@ -9,7 +9,7 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE(GreadRandomNumberActivity, gread_random_number_activity, GREAD, RANDOM_NUMBER_ACTIVITY, AdwBin)
 
 
-  void gread_random_number_activity_set_digits(GreadRandomNumberActivity *win, guint digits);
+void gread_random_number_activity_set_digits(GreadRandomNumberActivity *win, guint digits);
 
 void gread_random_number_activity_set_display_time(GreadRandomNumberActivity *win, guint display_time);
 

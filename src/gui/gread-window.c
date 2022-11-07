@@ -10,6 +10,7 @@
 struct _GreadAppWindow {
   AdwApplicationWindow parent;
   AdwHeaderBar *header_bar;
+  GreadRandomNumberActivity * random_activity;
 };
 
 G_DEFINE_TYPE (GreadAppWindow, gread_app_window, ADW_TYPE_APPLICATION_WINDOW)
@@ -36,6 +37,7 @@ gread_app_window_class_init(GreadAppWindowClass *klass){
                                               "/org/gnome/gread/gui/gread-window.ui");
 
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, header_bar);
+  gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, random_activity);
 }
 
 static void
