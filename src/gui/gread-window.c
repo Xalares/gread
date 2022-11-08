@@ -48,6 +48,8 @@ gread_app_window_init(GreadAppWindow *self){
   g_type_ensure(GREAD_RANDOM_NUMBER_ACTIVITY_TYPE);
   g_type_ensure(GREAD_INTRODUCTION_TYPE);
   gtk_widget_init_template(GTK_WIDGET(self));
+  g_signal_connect_swapped(self->introduction, "ok-pressed", gtk_widget_hide, self->introduction);
+  g_signal_connect_swapped(self->introduction, "ok-pressed", gtk_widget_show, self->random_activity);
 
 }
 

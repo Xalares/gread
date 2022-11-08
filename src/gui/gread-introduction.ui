@@ -28,7 +28,7 @@
           </object>
         </child>
         <child>
-          <object class="GtkButton" id="start_button">
+          <object class="GtkButton" id="ok_button">
             <property name="label" translatable="yes">Ok</property>
             <property name="halign">GTK_ALIGN_CENTER</property>
             <property name="margin-top">25</property>
