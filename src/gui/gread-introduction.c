@@ -8,6 +8,7 @@ struct _GreadIntroduction
 {
   AdwBin parent;
   GtkTextView *text_view;
+  GtkButton *start_button;
 };
 
 G_DEFINE_TYPE (GreadIntroduction, gread_introduction, ADW_TYPE_BIN)
@@ -19,7 +20,10 @@ gread_introduction_class_init(GreadIntroductionClass *klass){
 
   gtk_widget_class_set_template_from_resource(widget_class,
                                               "/org/gnome/gread/gui/gread-introduction.ui");
+
   gtk_widget_class_bind_template_child(widget_class, GreadIntroduction, text_view);
+  gtk_widget_class_bind_template_child(widget_class, GreadIntroduction, start_button);
+
   gtk_widget_class_set_layout_manager_type(widget_class, GTK_TYPE_BIN_LAYOUT);
 }
 
