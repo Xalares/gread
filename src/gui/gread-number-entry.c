@@ -176,6 +176,7 @@ gread_number_entry_dispose(GObject *object){
 
   GtkWidget *text = GTK_WIDGET(self->text);
   g_clear_pointer(&text, gtk_widget_unparent);
+  gtk_widget_unparent(GTK_WIDGET(self));
   G_OBJECT_CLASS(gread_number_entry_parent_class)->dispose(object);
 }
 

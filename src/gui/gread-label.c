@@ -99,6 +99,8 @@ gread_label_get_property(GObject *object, guint property_id,
 
 static void
 gread_label_dispose(GObject *object){
+  GreadLabel *self = GREAD_LABEL(object);
+  gtk_widget_unparent(GTK_WIDGET(self));
   G_OBJECT_CLASS(gread_label_parent_class)->dispose(object);
 }
 

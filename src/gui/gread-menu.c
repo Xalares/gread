@@ -31,7 +31,7 @@ G_DEFINE_TYPE(GreadMenu, gread_menu, ADW_TYPE_BIN)
 //calbacks
 static void
 gread_menu_digits_changed(GtkSpinButton *button, GreadMenu *self){
-  self->activity = gtk_widget_get_ancestor(GTK_WIDGET(self), GREAD_RANDOM_NUMBER_ACTIVITY_TYPE);
+  self->activity = GREAD_RANDOM_NUMBER_ACTIVITY(gtk_widget_get_ancestor(GTK_WIDGET(self), GREAD_RANDOM_NUMBER_ACTIVITY_TYPE));
   g_assert(GREAD_RANDOM_NUMBER_ACTIVITY_TYPE == G_OBJECT_TYPE(self->activity));
   gread_random_number_activity_set_digits(self->activity,
     (guint)gtk_spin_button_get_value_as_int(button));
@@ -39,11 +39,23 @@ gread_menu_digits_changed(GtkSpinButton *button, GreadMenu *self){
 
 static void
 gread_menu_display_time_changed(GtkSpinButton *button, GreadMenu *self){
-  self->activity = gtk_widget_get_ancestor(GTK_WIDGET(self), GREAD_RANDOM_NUMBER_ACTIVITY_TYPE);
+  self->activity = GREAD_RANDOM_NUMBER_ACTIVITY(gtk_widget_get_ancestor(GTK_WIDGET(self), GREAD_RANDOM_NUMBER_ACTIVITY_TYPE));
   g_assert(GREAD_RANDOM_NUMBER_ACTIVITY_TYPE == G_OBJECT_TYPE(self->activity));
   gread_random_number_activity_set_display_time(self->activity,
                                     (guint)gtk_spin_button_get_value_as_int(button));
 
+}
+
+static void
+gread_menu_dispose(GObject *object){
+  GreadMenu *self = GREAD_MENU(object);
+  gtk_widget_unparent(GTK_WIDGET(self));
+  G_OBJECT_CLASS(gread_menu_parent_class)->dispose(object);
+}
+
+static void
+gread_menu_finalize(GObject *object){
+  G_OBJECT_CLASS(gread_menu_parent_class)->finalize (object);
 }
 
 static void
@@ -105,11 +117,6 @@ gread_menu_get_property(GObject *object, guint property_id,
 }
 
 void
-gread_menu_set_activity(GreadMenu *self,GreadAppWindow *win){
-  self->activity = win;
-}
-
-void
 gread_menu_lock(GreadMenu *self){
   GValue value = G_VALUE_INIT;
   g_value_init(&value, G_TYPE_BOOLEAN);
@@ -153,6 +160,8 @@ gread_menu_class_init(GreadMenuClass *klass){
 
   object_class->get_property = (GObjectGetPropertyFunc) gread_menu_get_property;
   object_class->set_property = (GObjectSetPropertyFunc) gread_menu_set_property;
+  object_class->dispose = gread_menu_dispose;
+  object_class->finalize = (GObjectFinalizeFunc) gread_menu_finalize;
 
   g_object_class_install_properties(object_class, N_PROPERTIES, obj_properties);
 

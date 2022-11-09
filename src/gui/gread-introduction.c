@@ -7,6 +7,7 @@
 struct _GreadIntroduction
 {
   AdwBin parent;
+  GtkScrolledWindow *scrolled_window;
   GtkTextView *text_view;
   GtkButton *ok_button;
 };
@@ -24,13 +25,38 @@ G_DEFINE_TYPE (GreadIntroduction, gread_introduction, ADW_TYPE_BIN)
 
 static void
 gread_intro_ok_handler (GreadIntroduction *self){
+  g_print("%d\n", gtk_widget_get_allocated_height(GTK_WIDGET(self->text_view)));
+  g_print("%d\n", gtk_widget_get_height(GTK_WIDGET(self->text_view)));
+
   g_signal_emit(self, obj_signal[OK_PRESSED], 0);
+}
+
+static void
+gread_intro_edge_reached_handler(GreadIntroduction *self, GtkPositionType pos){
+  if(pos == GTK_POS_BOTTOM){
+    gtk_widget_set_sensitive(GTK_WIDGET(self->ok_button), true);
+  }
+}
+
+static void
+gread_intro_dispose(GObject *object){
+  GreadIntroduction *self = GREAD_INTRODUCTION(object);
+  gtk_widget_unparent(GTK_WIDGET(self));
+  G_OBJECT_CLASS(gread_introduction_parent_class)->dispose(object);
+}
+
+static void
+gread_intro_finalize(GObject *object){
+  G_OBJECT_CLASS(gread_introduction_parent_class)->finalize(object);
 }
 
 static void
 gread_introduction_class_init(GreadIntroductionClass *klass){
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS(klass);
   GObjectClass *object_class = G_OBJECT_CLASS(klass);
+
+  object_class->dispose = gread_intro_dispose;
+  object_class->finalize = (GObjectFinalizeFunc) gread_intro_finalize;
 
   obj_signal[BOTTOM_REACHED] =
     g_signal_newv("bottom-reached",
@@ -61,6 +87,7 @@ gread_introduction_class_init(GreadIntroductionClass *klass){
 
   gtk_widget_class_bind_template_child(widget_class, GreadIntroduction, text_view);
   gtk_widget_class_bind_template_child(widget_class, GreadIntroduction, ok_button);
+  gtk_widget_class_bind_template_child(widget_class, GreadIntroduction, scrolled_window);
 
   gtk_widget_class_set_layout_manager_type(widget_class, GTK_TYPE_BIN_LAYOUT);
 }
@@ -68,5 +95,9 @@ gread_introduction_class_init(GreadIntroductionClass *klass){
 static void
 gread_introduction_init(GreadIntroduction *self){
   gtk_widget_init_template(GTK_WIDGET(self));
-  g_signal_connect_swapped(self->ok_button, "clicked", gread_intro_ok_handler, self);
+  gtk_widget_remove_css_class(GTK_WIDGET(self->text_view), "view");
+  gtk_widget_get_height(GTK_WIDGET(self->ok_button));
+  g_signal_connect_swapped(self->scrolled_window, "edge-reached", G_CALLBACK(gread_intro_edge_reached_handler), self);
+
+  g_signal_connect_swapped(self->ok_button, "clicked", G_CALLBACK(gread_intro_ok_handler), self);
 }

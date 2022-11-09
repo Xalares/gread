@@ -13,12 +13,15 @@ struct _GreadAppWindow {
   AdwHeaderBar *header_bar;
   GreadRandomNumberActivity *random_activity;
   GreadIntroduction *introduction;
+  gboolean intro_read;
 };
 
 G_DEFINE_TYPE (GreadAppWindow, gread_app_window, ADW_TYPE_APPLICATION_WINDOW)
 
 static void
 gread_app_window_dispose(GObject *object){
+  GreadAppWindow *self = GREAD_APP_WINDOW(object);
+  gtk_widget_unparent(GTK_WIDGET(self));
   G_OBJECT_CLASS(gread_app_window_parent_class)->dispose(object);
 }
 
@@ -32,7 +35,7 @@ gread_app_window_class_init(GreadAppWindowClass *klass){
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS(klass);
   GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
-  object_class->finalize = gread_app_window_finalize;
+  object_class->finalize = (GObjectFinalizeFunc) gread_app_window_finalize;
   object_class->dispose = gread_app_window_dispose;
 
   gtk_widget_class_set_template_from_resource(GTK_WIDGET_CLASS(klass),
@@ -47,9 +50,10 @@ static void
 gread_app_window_init(GreadAppWindow *self){
   g_type_ensure(GREAD_RANDOM_NUMBER_ACTIVITY_TYPE);
   g_type_ensure(GREAD_INTRODUCTION_TYPE);
+  self->intro_read = false;
   gtk_widget_init_template(GTK_WIDGET(self));
-  g_signal_connect_swapped(self->introduction, "ok-pressed", gtk_widget_hide, self->introduction);
-  g_signal_connect_swapped(self->introduction, "ok-pressed", gtk_widget_show, self->random_activity);
+  g_signal_connect_swapped(self->introduction, "ok-pressed", G_CALLBACK(gtk_widget_hide), self->introduction);
+  g_signal_connect_swapped(self->introduction, "ok-pressed", G_CALLBACK(gtk_widget_show), self->random_activity);
 
 }
 

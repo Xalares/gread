@@ -65,6 +65,19 @@ gread_random_number_activity_update_random_seed(GreadRandomNumberActivity *self)
 }
 
 static void
+gread_random_number_activity_dispose(GObject *object){
+  GreadRandomNumberActivity *self = GREAD_RANDOM_NUMBER_ACTIVITY(object);
+  gtk_widget_unparent(GTK_WIDGET(self));
+  G_OBJECT_CLASS(gread_random_number_activity_parent_class)->dispose(object);
+}
+
+static void
+gread_random_number_activity_finalize(GObject *object){
+  G_OBJECT_CLASS(gread_random_number_activity_parent_class)->finalize(object);
+}
+
+
+static void
 gread_random_number_activity_set_property(GObject *object, guint property_id,
                                    const GValue *value, GParamSpec *pspec){
 
@@ -272,16 +285,6 @@ gread_random_number_activity_set_display_time(GreadRandomNumberActivity *self, g
 }
 
 static void
-gread_random_number_activity_dispose(GObject *object){
-  G_OBJECT_CLASS(gread_random_number_activity_parent_class)->dispose(object);
-}
-
-static void
-gread_random_number_activity_finalize(GObject *object){
-  G_OBJECT_CLASS(gread_random_number_activity_parent_class)->finalize(object);
-}
-
-static void
 gread_random_number_activity_class_init(GreadRandomNumberActivityClass *klass){
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS(klass);
   GObjectClass *object_class = G_OBJECT_CLASS(klass);
@@ -308,7 +311,7 @@ gread_random_number_activity_class_init(GreadRandomNumberActivityClass *klass){
 
   object_class->get_property = (GObjectGetPropertyFunc) gread_random_number_activity_get_property;
   object_class->set_property = (GObjectSetPropertyFunc) gread_random_number_activity_set_property;
-  object_class->finalize = gread_random_number_activity_finalize;
+  object_class->finalize = (GObjectFinalizeFunc) gread_random_number_activity_finalize;
   object_class->dispose = gread_random_number_activity_dispose;
 
   g_object_class_install_properties(object_class, N_PROPERTIES, obj_properties);

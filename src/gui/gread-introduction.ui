@@ -6,7 +6,7 @@
         <property name="orientation">vertical</property>
   
         <child>
-          <object class="GtkScrolledWindow">
+          <object class="GtkScrolledWindow" id="scrolled_window">
             <child>
               <object class="GtkTextView" id="text_view">
                 <property name="right-margin">50</property>
@@ -30,6 +30,7 @@
         <child>
           <object class="GtkButton" id="ok_button">
             <property name="label" translatable="yes">Ok</property>
+            <property name="sensitive">false</property>
             <property name="halign">GTK_ALIGN_CENTER</property>
             <property name="margin-top">25</property>
             <property name="margin-bottom">25</property>
@@ -41,7 +42,13 @@
 
   <object class="GtkTextBuffer" id="buffer">
     <property name="text" translatable="yes">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam finibus aliquam tellus, vitae ultricies lectus viverra eu. Integer nec lorem efficitur, consequat nunc ut, feugiat erat. Proin viverra diam quis nisl tristique, porta consectetur tortor interdum. Donec faucibus in risus quis tincidunt. Aliquam sit amet lacus vel odio finibus egestas. Quisque fringilla felis a lorem molestie interdum eu ac neque. Vestibulum auctor, dui sit amet sagittis interdum, magna neque consectetur turpis, quis scelerisque mi dui nec sem. Etiam at elementum nulla, non condimentum tortor. Fusce accumsan sollicitudin mi, ut tempus magna semper ac. Pellentesque rutrum sem urna, non blandit leo venenatis a. Praesent ornare turpis eu neque euismod maximus at dignissim enim. Curabitur tristique viverra accumsan.  Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam tincidunt sit amet felis in pharetra. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec sed lectus eget ipsum tincidunt gravida. Mauris non augue ligula. Vivamus quis mi eget libero dictum lacinia vel nec nibh. Ut maximus purus libero, in dignissim dolor dictum at. Vivamus nec ligula ut tortor feugiat vestibulum a ac arcu. Donec non fringilla nibh. Ut auctor ligula massa, non feugiat lectus aliquam nec. Fusce imperdiet sagittis lacinia. Duis porttitor ante in facilisis ultricies. Mauris sodales justo eget augue elementum porta.
+      Welcome to Gread
+      Gread is a fast reading technic learning application. It consists in multiple activities that let you train different abylities needed to be able to read really fast. It's inspired after the book "Speed Reading" by Tony Buzan. After reading this book, I thought that most of the exercises explained in it would particularily be easier done on a computer or a smartphone. So I started to devellop Gread.
+      I hope that you'll enjoy this application.
+      Welcome to Gread
+      Gread is a fast reading technic learning application. It consists in multiple activities that let you train different abylities needed to be able to read really fast. It's inspired after the book "Speed Reading" by Tony Buzan. After reading this book, I thought that most of the exercises explained in it would particularily be easier done on a computer or a smartphone. So I started to devellop Gread.
+      I hope that you'll enjoy this application.
+
     </property>
   </object>
 </interface>
