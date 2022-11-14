@@ -17,6 +17,8 @@
 GPATH
 GRTAGS
 GTAGS
+/bin
+/share
 .*
 /build
 \#*

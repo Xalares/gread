@@ -1,7 +1,7 @@
-# Gread Fast Reading Application
-Gread aims to be a application that introduce the user to fast reading technics.
+# Gread Speed Reading Application
+Gread aims to be an application that introduce the user to speed reading technics.
 One of the first exercise, is to be able to retain information, without having to look at it less than 500ms.
-The lentgh of the information (or it's complexity) and the time you can focus on it are key components of the difficulty of the exercise.
+The lentgh of the information (or it's complexity) and the time you can focus on it are key components of exercice's difficulty.
 
 Other exercises, and information will be added later in the application, such as :
 - Interactive text reading.
