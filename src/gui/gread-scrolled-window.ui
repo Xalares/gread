@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GreadScrolledWindow" parent="GtkWidget">
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">horizontal</property>
+        <child>
+          <object class="GtkScrollbar" id="scrollbar"/>
+        </child>
+        <child>
+          <object class="GtkWidget" id="content">
+            <child>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>
