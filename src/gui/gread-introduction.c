@@ -8,7 +8,6 @@ struct _GreadIntroduction
 {
   AdwBin parent;
   GtkScrolledWindow *scrolled_window;
-  GtkScrollbar *scrollbar;
   GtkTextView *text_view;
   GtkButton *ok_button;
 };
@@ -36,10 +35,58 @@ gread_intro_edge_reached_handler(GreadIntroduction *self, GtkPositionType pos){
   }
 }
 
+static GtkSizeRequestMode
+gread_introduction_request_mode(GtkWidget *widget){
+  g_print("Request\n");
+  return GTK_SIZE_REQUEST_HEIGHT_FOR_WIDTH;
+}
+
+static void
+gread_introduction_measure(GtkWidget *widget,
+                    GtkOrientation orientation,
+                    int for_size,
+                    int *minimum,
+                    int *natural,
+                    int *minimum_baseline,
+                    int *natural_baseline){
+
+  GreadIntroduction *self = GREAD_INTRODUCTION(widget);
+  int view_min, view_nat, view_min_baseline, view_nat_baseline;
+  int scrolled_window_min, scrolled_window_nat, scrolled_window_min_baseline, scrolled_window_nat_baseline;
+  int ok_button_min, ok_button_nat, ok_button_min_baseline, ok_button_nat_baseline;
+
+  g_print("Measure\n");
+  /*gtk_widget_measure(self->text_view, orientation, for_size,
+                     &view_min, &view_nat,
+                     &view_min_baseline, &view_nat_baseline);
+
+  gtk_widget_measure(self->scrolled_window, orientation, for_size,
+                     &scrolled_window_min, &scrolled_window_nat,
+                     &scrolled_window_min_baseline, &scrolled_window_nat_baseline);
+
+  gtk_widget_measure(self->ok_button, orientation, for_size,
+                     &ok_button_min, &ok_button_nat,
+                     &ok_button_min_baseline, &ok_button_nat_baseline);*/
+
+
+}
+
+static void
+gread_introduction_allocate(GtkWidget *widget, int width,
+                            int height, int baseline){
+
+  GreadIntroduction *self = GREAD_INTRODUCTION(widget);
+  g_print("Allocate\n");
+  gtk_widget_size_allocate(self->text_view, &(GtkAllocation){0 , 0, width, height}, baseline);
+}
+
 static void
 gread_intro_dispose(GObject *object){
   GreadIntroduction *self = GREAD_INTRODUCTION(object);
+  gtk_widget_unparent(GTK_WIDGET(self->text_view));
+  gtk_widget_unparent(GTK_WIDGET(self->scrolled_window));
   gtk_widget_unparent(GTK_WIDGET(self));
+
   G_OBJECT_CLASS(gread_introduction_parent_class)->dispose(object);
 }
 
@@ -55,6 +102,10 @@ gread_introduction_class_init(GreadIntroductionClass *klass){
 
   object_class->dispose = gread_intro_dispose;
   object_class->finalize = (GObjectFinalizeFunc) gread_intro_finalize;
+
+  widget_class->get_request_mode = gread_introduction_request_mode;
+  widget_class->measure = gread_introduction_measure;
+  widget_class->size_allocate = gread_introduction_allocate;
 
   obj_signal[BOTTOM_REACHED] =
     g_signal_newv("bottom-reached",
@@ -94,11 +145,9 @@ static void
 gread_introduction_init(GreadIntroduction *self){
   gtk_widget_init_template(GTK_WIDGET(self));
   gtk_widget_remove_css_class(GTK_WIDGET(self->text_view), "view");
-  self->scrollbar = GTK_SCROLLBAR(gtk_scrolled_window_get_hscrollbar(self->scrolled_window));
-  if(gtk_widget_is_visible(GTK_WIDGET(self->scrollbar))){
-    g_signal_connect_swapped(self->scrolled_window, "edge-reached", G_CALLBACK(gread_intro_edge_reached_handler), self);
-  }else{
-    gtk_widget_set_sensitive(GTK_WIDGET(self->ok_button), true);
-}
-  g_signal_connect_swapped(self->ok_button, "clicked", G_CALLBACK(gread_intro_ok_handler), self);
+
+  g_signal_connect_swapped(self->scrolled_window, "edge-reached",
+                           G_CALLBACK(gread_intro_edge_reached_handler), self);
+  g_signal_connect_swapped(self->ok_button, "clicked",
+                           G_CALLBACK(gread_intro_ok_handler), self);
 }

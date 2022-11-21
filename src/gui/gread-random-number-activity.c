@@ -66,13 +66,14 @@ gread_random_number_activity_update_random_seed(GreadRandomNumberActivity *self)
 
 static void
 gread_random_number_activity_dispose(GObject *object){
-  GreadRandomNumberActivity *self = GREAD_RANDOM_NUMBER_ACTIVITY(object);
-  gtk_widget_unparent(GTK_WIDGET(self));
   G_OBJECT_CLASS(gread_random_number_activity_parent_class)->dispose(object);
 }
 
 static void
 gread_random_number_activity_finalize(GObject *object){
+  GreadRandomNumberActivity *self = GREAD_RANDOM_NUMBER_ACTIVITY(object);
+  if(self->main_box)
+    gtk_widget_unparent(GTK_WIDGET(self->main_box));
   G_OBJECT_CLASS(gread_random_number_activity_parent_class)->finalize(object);
 }
 
@@ -134,7 +135,6 @@ timeout(GreadRandomNumberActivity *self){
 
 static gboolean
 progress(GreadRandomNumberActivity *self){
-
   if(self->progress <= 1.0){
     gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(self->progress_bar), self->progress);
     self->progress += 0.25;
@@ -198,17 +198,9 @@ start_cb(GreadRandomNumberActivity *self){
       g_source_remove(obj_timeout[TIMEOUT]);
     }
 
-    if(gtk_widget_is_visible(GTK_WIDGET(self->number_entry))){
-      gtk_widget_set_visible(GTK_WIDGET(self->number_entry), false);
-    }
-
-    if(gtk_widget_is_visible(GTK_WIDGET(self->label))){
-      gtk_widget_set_visible(GTK_WIDGET(self->label), false);
-    }
-
-    if(gtk_widget_is_visible(GTK_WIDGET(self->score_label))){
-      gtk_widget_set_visible(GTK_WIDGET(self->score_label), false);
-    }
+    gtk_widget_set_visible(GTK_WIDGET(self->number_entry), false);
+    gtk_widget_set_visible(GTK_WIDGET(self->label), false);
+    gtk_widget_set_visible(GTK_WIDGET(self->score_label), false);
 
     gread_number_entry_clear(self->number_entry);
     gtk_widget_remove_css_class(GTK_WIDGET(self->label), "correct");
