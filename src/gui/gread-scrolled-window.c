@@ -115,13 +115,34 @@ gread_scrolled_window_set_child(GreadScrolledWindow *self, GtkWidget *child){
     g_object_notify_by_pspec (G_OBJECT (scrolled_window), properties[PROP_CHILD]);*/
 
 }
+static void
+gread_scrolled_window_measure(GtkWidget *widget,
+                              GtkOrientation orientation,
+                              int for_size,
+                              int *minimum,
+                              int *natural,
+                              int *minimum_baseline,
+                              int *natural_baseline){
+
+}
+
+static void
+gread_scrolled_window_allocate(GtkWidget *widget, int width,
+                               int height, int baseline){
+
+}
 
 static void
 gread_scrolled_window_class_init(GreadScrolledWindowClass *klass){
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS(klass);
   GObjectClass   *object_class = G_OBJECT_CLASS(klass);
 
-  gtk_widget_class_set_layout_manager_type(widget_class, GTK_TYPE_BIN_LAYOUT);
+  widget_class->size_allocate = gread_scrolled_window_allocate;
+  widget_class->measure = gread_scrolled_window_measure;
+
+  gtk_widget_class_set_template_from_resource(widget_class,
+                                              "/org/gnome/gread/gui/gread-introduction.ui");
+
 }
 
 

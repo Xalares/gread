@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="GreadIntroduction" parent="AdwBin">
+  <template class="GreadIntroduction" parent="GtkWidget">
+    <property name="vexpand">true</property>
+    <property name="vexpand-set">true</property>
     <child>
       <object class="GtkBox">
         <property name="orientation">vertical</property>
