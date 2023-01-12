@@ -2,12 +2,13 @@
 #include <adwaita.h>
 #include <glib/gi18n-lib.h>
 
+#include "gread-scrolled-window.h"
 #include "gread-introduction.h"
 
 struct _GreadIntroduction
 {
   GtkWidget parent;
-  GtkScrolledWindow *scrolled_window;
+  GreadScrolledWindow *scrolled_window;
   GtkTextView *text_view;
   GtkButton *ok_button;
 };
@@ -34,7 +35,7 @@ gread_intro_edge_reached_handler(GreadIntroduction *self, GtkPositionType pos){
     gtk_widget_set_sensitive(GTK_WIDGET(self->ok_button), true);
   }
 }
-
+/*
 static GtkSizeRequestMode
 gread_introduction_request_mode(GtkWidget *widget){
   g_print("Request\n");
@@ -100,7 +101,7 @@ gread_introduction_allocate(GtkWidget *widget, int width,
       }
     }
 }
-
+*/
 static void
 gread_intro_dispose(GObject *object){
   GreadIntroduction *self = GREAD_INTRODUCTION(object);
@@ -121,9 +122,9 @@ gread_introduction_class_init(GreadIntroductionClass *klass){
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS(klass);
   GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
-  widget_class->get_request_mode = gread_introduction_request_mode;
-  widget_class->measure = gread_introduction_measure;
-  widget_class->size_allocate = gread_introduction_allocate;
+  //widget_class->get_request_mode = gread_introduction_request_mode;
+  //widget_class->measure = gread_introduction_measure;
+  //widget_class->size_allocate = gread_introduction_allocate;
 
   object_class->dispose = gread_intro_dispose;
   object_class->finalize = (GObjectFinalizeFunc) gread_intro_finalize;
@@ -158,16 +159,18 @@ gread_introduction_class_init(GreadIntroductionClass *klass){
   gtk_widget_class_bind_template_child(widget_class, GreadIntroduction, text_view);
   gtk_widget_class_bind_template_child(widget_class, GreadIntroduction, ok_button);
   gtk_widget_class_bind_template_child(widget_class, GreadIntroduction, scrolled_window);
+  gtk_widget_class_set_layout_manager_type(widget_class, GTK_TYPE_BIN_LAYOUT);
 }
 
 static void
 gread_introduction_init(GreadIntroduction *self){
+  g_type_ensure(GREAD_SCROLLED_WINDOW_TYPE);
   gtk_widget_init_template(GTK_WIDGET(self));
   gtk_widget_remove_css_class(GTK_WIDGET(self->text_view), "view");
 
 
-  g_signal_connect_swapped(self->scrolled_window, "edge-reached",
-                           G_CALLBACK(gread_intro_edge_reached_handler), self);
+  //g_signal_connect_swapped(self->scrolled_window, "edge-reached",
+  //                       G_CALLBACK(gread_intro_edge_reached_handler), self);
   g_signal_connect_swapped(self->ok_button, "clicked",
                            G_CALLBACK(gread_intro_ok_handler), self);
 }
