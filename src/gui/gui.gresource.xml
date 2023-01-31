@@ -8,5 +8,6 @@
     <file compressed="true">gread-menu.ui</file>
     <file compressed="true">gread-introduction.ui</file>
     <file compressed="true">gread-scrolled-window.ui</file>
+    <file compressed="true">gread-text-view.ui</file>
   </gresource>
 </gresources>
