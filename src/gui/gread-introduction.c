@@ -97,7 +97,6 @@ gread_introduction_class_init(GreadIntroductionClass *klass){
 
 static void
 gread_introduction_init(GreadIntroduction *self){
-  g_type_ensure(GREAD_TEXT_VIEW_TYPE);
   gtk_widget_init_template(GTK_WIDGET(self));
   gtk_widget_remove_css_class(GTK_WIDGET(self->text_view), "view");
 

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="32"
+   height="32"
+   viewBox="0 0 32 32"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   sodipodi:docname="Gread.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:zoom="26.15625"
+     inkscape:cx="14.375149"
+     inkscape:cy="16.286738"
+     inkscape:window-width="1920"
+     inkscape:window-height="1016"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid132"
+       empspacing="4" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <circle
+       style="fill:none;stroke:#1f6eff;stroke-width:1.01254;stroke-linejoin:bevel;stroke-opacity:1"
+       id="path238"
+       cx="15.998934"
+       cy="15.998934"
+       r="11.494796"
+       inkscape:label="Cercle" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Calque 2">
+    <path
+       style="fill:none;stroke:#c3d9ff;stroke-width:1.013;stroke-linejoin:bevel;stroke-opacity:1;stroke-linecap:round"
+       d="M 10,8 H 22"
+       id="path1017"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#0056f2;stroke-width:1.013;stroke-linejoin:bevel;stroke-opacity:1;stroke-linecap:round"
+       d="M 6,16 H 26"
+       id="path1019" />
+    <path
+       style="fill:none;stroke:#88b2ff;stroke-width:1.013;stroke-linejoin:bevel;stroke-opacity:1;stroke-linecap:round"
+       d="M 7,12 H 25"
+       id="path1021"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#003390;stroke-width:1.013;stroke-linejoin:bevel;stroke-opacity:1;stroke-linecap:round"
+       d="M 7,20 H 25"
+       id="path1119"
+       sodipodi:nodetypes="cc" />
+    <circle
+       style="fill:none;stroke:#003390;stroke-width:0.58946;stroke-linejoin:bevel;stroke-opacity:1"
+       id="path1899"
+       cx="12"
+       cy="23.418104"
+       r="0.58189511" />
+    <circle
+       style="fill:none;stroke:#0056f2;stroke-width:0.58946;stroke-linejoin:bevel;stroke-opacity:1"
+       id="circle1905"
+       cx="16"
+       cy="23.418104"
+       r="0.58189511" />
+    <circle
+       style="fill:none;stroke:#88b2ff;stroke-width:0.58946;stroke-linejoin:bevel;stroke-opacity:1"
+       id="circle1907"
+       cx="20"
+       cy="23.418104"
+       r="0.58189511" />
+  </g>
+</svg>

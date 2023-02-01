@@ -9,8 +9,27 @@
         <child>
           <object class="GtkScrolledWindow" id="scrolled_window">
             <child>
-              <object class="GreadTextView" id="text_view">
+              <object class="GtkScrollbar" id="scrollbar">
+                <property name="adjustment">adjustment</property>
+                <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
+              </object>
+            </child>
+            <child>   
+              <object class="GtkTextView" id="text_view">
+                <property name="right-margin">50</property>
+                <property name="left-margin">50</property>
+                <property name="top-margin">25</property>
+                <property name="bottom-margin">25</property>
+                <property name="editable">false</property>
                 <property name="vexpand">true</property>
+                <property name="vexpand-set">true</property>
+                <property name="can-target">false</property>
+                <property name="cursor-visible">false</property>
+                <property name="buffer">buffer</property>
+                <property name="wrap-mode">GTK_WRAP_WORD</property>
+                <style>
+                  <class name="introduction"/>
+                </style>
               </object>
             </child>
           </object>
@@ -27,4 +46,15 @@
       </object>
     </child>
   </template>
+    <object class="GtkTextBuffer" id="buffer">
+    <property name="text" translatable="yes">
+      Welcome to Gread
+      Gread is a fast reading technic learning application. It consists in multiple activities that let you train different abylities needed to be able to read really fast. It's inspired after the book "Speed Reading" by Tony Buzan. After reading this book, I thought that most of the exercises explained in it would particularily be easier done on a computer or a smartphone. So I started to devellop Gread.
+      I hope that you'll enjoy this application.
+            Welcome to Gread
+      Gread is a fast reading technic learning application. It consists in multiple activities that let you train different abylities needed to be able to read really fast. It's inspired after the book "Speed Reading" by Tony Buzan. After reading this book, I thought that most of the exercises explained in it would particularily be easier done on a computer or a smartphone. So I started to devellop Gread.
+      I hope that you'll enjoy this application.
+            Welcome to Gread
+    </property>
+  </object>
 </interface>
