@@ -8,12 +8,6 @@
         <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
         <child>
           <object class="GtkScrolledWindow" id="scrolled_window">
-            <child>
-              <object class="GtkScrollbar" id="scrollbar">
-                <property name="adjustment">adjustment</property>
-                <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
-              </object>
-            </child>
             <child>   
               <object class="GtkTextView" id="text_view">
                 <property name="right-margin">50</property>

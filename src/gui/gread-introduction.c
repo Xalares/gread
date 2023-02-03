@@ -2,14 +2,13 @@
 #include <adwaita.h>
 #include <glib/gi18n-lib.h>
 
-#include "gread-scrolled-window.h"
 #include "gread-introduction.h"
-#include "gread-text-view.h"
 
 struct _GreadIntroduction
 {
   GtkWidget parent;
   GtkScrolledWindow *scrolled_window;
+  GtkWidget *box;
   GtkScrollbar *scrollbar;
   GtkAdjustment *adjustment;
   GtkTextView *text_view;
@@ -44,6 +43,7 @@ gread_intro_dispose(GObject *object){
   GreadIntroduction *self = GREAD_INTRODUCTION(object);
   gtk_widget_unparent(GTK_WIDGET(self->text_view));
   gtk_widget_unparent(GTK_WIDGET(self->scrolled_window));
+  gtk_widget_unparent(GTK_WIDGET(self->box));
   gtk_widget_unparent(GTK_WIDGET(self));
 
   G_OBJECT_CLASS(gread_introduction_parent_class)->dispose(object);
@@ -92,6 +92,7 @@ gread_introduction_class_init(GreadIntroductionClass *klass){
   gtk_widget_class_bind_template_child(widget_class, GreadIntroduction, text_view);
   gtk_widget_class_bind_template_child(widget_class, GreadIntroduction, ok_button);
   gtk_widget_class_bind_template_child(widget_class, GreadIntroduction, scrolled_window);
+  gtk_widget_class_bind_template_child(widget_class, GreadIntroduction, box);
   gtk_widget_class_set_layout_manager_type(widget_class, GTK_TYPE_BIN_LAYOUT);
 }
 
