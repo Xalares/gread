@@ -7,5 +7,6 @@
     <file compressed="true">gread-random-number-activity.ui</file>
     <file compressed="true">gread-menu.ui</file>
     <file compressed="true">gread-introduction.ui</file>
+    <file compressed="true">gread-activity-choice.ui</file>
   </gresource>
 </gresources>
