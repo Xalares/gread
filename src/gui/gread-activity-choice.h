@@ -5,10 +5,8 @@
 
 G_BEGIN_DECLS
 
-#define GREAD_APPLICATION_TYPE (gread_application_get_type())
+#define GREAD_ACTIVITY_CHOICE_TYPE (gread_activity_choice_get_type())
 G_DECLARE_FINAL_TYPE (GreadActivityChoice, gread_activity_choice, GREAD, ACTIVITY_CHOICE, GtkWidget)
-
-GreadActivityChoice* gread_application_new(void);
 
 G_END_DECLS
 

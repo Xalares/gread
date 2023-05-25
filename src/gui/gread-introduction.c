@@ -29,14 +29,16 @@ G_DEFINE_TYPE (GreadIntroduction, gread_introduction, GTK_TYPE_WIDGET)
 
 static void
 gread_intro_vadjustment(GreadIntroduction *self){
+  static gboolean first_run = true;
   double upper = gtk_adjustment_get_upper(self->adjustment);
   double lower = gtk_adjustment_get_lower(self->adjustment);
   double page_size = gtk_adjustment_get_page_size(self->adjustment);
   double value = gtk_adjustment_get_value(self->adjustment);
   if(0>=(upper-page_size)){
-    g_print("Max-content width: %d\n", gtk_scrolled_window_get_max_content_width(self->scrolled_window));
-    g_print("Adjustment %f, upper: %f, value: %f, page_size: %f, lower:%f\n",
-            upper-page_size,upper, value, page_size, lower);
+    if (!first_run)
+      gtk_widget_set_sensitive(GTK_WIDGET(self->ok_button), true);
+    else
+      first_run = false;
   }
 }
 
@@ -46,14 +48,14 @@ gread_intro_ok_handler (GreadIntroduction *self){
 }
 
 static void
-gread_intro_edge_reached_handler(GreadIntroduction *self, GtkPositionType pos){
+gread_intro_edge_reached_handler (GreadIntroduction *self, GtkPositionType pos){
   if(pos == GTK_POS_BOTTOM){
     gtk_widget_set_sensitive(GTK_WIDGET(self->ok_button), true);
   }
 }
 
 static void
-gread_intro_dispose(GObject *object){
+gread_intro_dispose (GObject *object){
   GreadIntroduction *self = GREAD_INTRODUCTION(object);
   gtk_widget_unparent(GTK_WIDGET(self->text_view));
   gtk_widget_unparent(GTK_WIDGET(self->scrolled_window));
@@ -65,12 +67,12 @@ gread_intro_dispose(GObject *object){
 }
 
 static void
-gread_intro_finalize(GObject *object){
+gread_intro_finalize (GObject *object){
   G_OBJECT_CLASS(gread_introduction_parent_class)->finalize(object);
 }
 
 static void
-gread_introduction_class_init(GreadIntroductionClass *klass){
+gread_introduction_class_init (GreadIntroductionClass *klass){
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS(klass);
   GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
@@ -113,7 +115,7 @@ gread_introduction_class_init(GreadIntroductionClass *klass){
 }
 
 static void
-gread_introduction_init(GreadIntroduction *self){
+gread_introduction_init (GreadIntroduction *self){
   gtk_widget_init_template(GTK_WIDGET(self));
   gtk_widget_remove_css_class(GTK_WIDGET(self->text_view), "view");
   self->adjustment = gtk_scrolled_window_get_vadjustment(self->scrolled_window);

@@ -7,12 +7,14 @@
 #include "gread-number-entry.h"
 #include "gread-random-number-activity.h"
 #include "gread-introduction.h"
+#include "gread-activity-choice.h"
 
 struct _GreadAppWindow {
   AdwApplicationWindow parent;
   AdwHeaderBar *header_bar;
   GreadRandomNumberActivity *random_activity;
   GreadIntroduction *introduction;
+  GreadActivityChoice *choice;
   gboolean intro_read;
 };
 

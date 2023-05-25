@@ -19,6 +19,11 @@
           </object>
         </child>
         <child>
+          <object class="GreadActivityChoice" id="choice_activity">
+            <property name="visible">false</property>
+          </object>
+        </child>
+        <child>
           <object class="GreadIntroduction" id="introduction">
           </object>
         </child>
