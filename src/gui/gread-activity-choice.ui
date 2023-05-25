@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="GreadActivityChoice" parent="GtkWidget">
+    <child>
+      <object class="GtkBox" id="activity_box">
+        <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
+      </object>
+    </child>
   </template>
 </interface>

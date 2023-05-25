@@ -19,7 +19,7 @@
           </object>
         </child>
         <child>
-          <object class="GreadActivityChoice" id="choice_activity">
+          <object class="GreadActivityChoice" id="activity_choice">
             <property name="visible">false</property>
           </object>
         </child>

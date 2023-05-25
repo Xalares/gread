@@ -73,3 +73,10 @@ configure_file(
   output: 'config.h',
   configuration: config_h
 )
+
+executable(meson.project_name(),
+           sources,
+           dependencies: libgread_dep,
+           install: true,
+           install_dir: gread_bindir,
+          )

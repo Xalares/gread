@@ -35,9 +35,5 @@ libgread_dep = declare_dependency(
   dependencies: gread_deps,
   include_directories: gread_incs,
 )
-executable(meson.project_name(),
-           files('main.c'),
-           dependencies: libgread_dep,
-           install: true,
-           install_dir: gread_bindir,
-          )
+
+sources += files('main.c')

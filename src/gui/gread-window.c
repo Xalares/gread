@@ -14,7 +14,7 @@ struct _GreadAppWindow {
   AdwHeaderBar *header_bar;
   GreadRandomNumberActivity *random_activity;
   GreadIntroduction *introduction;
-  GreadActivityChoice *choice;
+  GreadActivityChoice *activity_choice;
   gboolean intro_read;
 };
 
@@ -45,17 +45,19 @@ gread_app_window_class_init(GreadAppWindowClass *klass){
 
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, header_bar);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, random_activity);
+  gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, activity_choice);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, introduction);
 }
 
 static void
 gread_app_window_init(GreadAppWindow *self){
   g_type_ensure(GREAD_RANDOM_NUMBER_ACTIVITY_TYPE);
+  g_type_ensure(GREAD_ACTIVITY_CHOICE_TYPE);
   g_type_ensure(GREAD_INTRODUCTION_TYPE);
   self->intro_read = false;
   gtk_widget_init_template(GTK_WIDGET(self));
   g_signal_connect_swapped(self->introduction, "ok-pressed", G_CALLBACK(gtk_widget_hide), self->introduction);
-  g_signal_connect_swapped(self->introduction, "ok-pressed", G_CALLBACK(gtk_widget_show), self->random_activity);
+  g_signal_connect_swapped(self->introduction, "ok-pressed", G_CALLBACK(gtk_widget_show), self->activity_choice);
 
 }
 
