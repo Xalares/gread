@@ -4,6 +4,25 @@
     <child>
       <object class="GtkBox" id="activity_box">
         <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
+        <property name="valign">GTK_ALIGN_CENTER</property>
+        <property name="halign">GTK_ALIGN_CENTER</property>
+        <property name="spacing">250</property>
+        <property name="margin-top">175</property>
+        <property name="homogeneous">true</property>
+        <child>
+          <object class="GtkButton" id="random_number_activity_button">
+            <property name="valign">GTK_ALIGN_CENTER</property>
+            <property name="height-request">125</property>
+            <property name="label">Read speed</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkButton" id="focus_activity_button">
+            <property name="label">Focus</property>
+            <property name="height-request">125</property>
+            <property name="valign">GTK_ALIGN_CENTER</property>
+          </object>
+        </child>
       </object>
     </child>
   </template>
