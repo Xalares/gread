@@ -14,11 +14,6 @@
           </object>
         </child>
         <child>
-          <object class="GreadRandomNumberActivity" id="random_activity">
-            <property name="visible">false</property>
-          </object>
-        </child>
-        <child>
           <object class="GreadActivityChoice" id="activity_choice">
             <property name="visible">false</property>
           </object>

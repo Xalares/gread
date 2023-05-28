@@ -12,7 +12,6 @@
 struct _GreadAppWindow {
   AdwApplicationWindow parent;
   AdwHeaderBar *header_bar;
-  GreadRandomNumberActivity *random_activity;
   GreadIntroduction *introduction;
   GreadActivityChoice *activity_choice;
   gboolean intro_read;
@@ -44,14 +43,12 @@ gread_app_window_class_init(GreadAppWindowClass *klass){
                                               "/org/gnome/gread/gui/gread-window.ui");
 
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, header_bar);
-  gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, random_activity);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, activity_choice);
   gtk_widget_class_bind_template_child(widget_class, GreadAppWindow, introduction);
 }
 
 static void
 gread_app_window_init(GreadAppWindow *self){
-  g_type_ensure(GREAD_RANDOM_NUMBER_ACTIVITY_TYPE);
   g_type_ensure(GREAD_ACTIVITY_CHOICE_TYPE);
   g_type_ensure(GREAD_INTRODUCTION_TYPE);
   self->intro_read = false;
