@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="GreadActivity" parent="GtkWidget">
+    <child>
+      <object class="GreadRandomNumberActivity" id="random_number_activity">
+        <property name="visible">false</property>
+      </object>
+    </child>
   </template>
 </interface>

@@ -25,5 +25,10 @@
         </child>
       </object>
     </child>
+    <child>
+      <object class="GreadRandomNumberActivity" id="random_activity">
+        <property name="visible">false</property>
+      </object>
+    </child>
   </template>
 </interface>
