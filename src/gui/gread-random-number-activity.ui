@@ -16,23 +16,23 @@
               <child type="start">
                 <object class="GtkBox">
                   <child>
-                <object class="GtkLabel" id="score_label">
-                  <property name="label" translatable="yes">Score</property>
-                  <property name="visible">false</property>
-                  <property name="margin-top">5</property>
-                  <property name="margin-start">5</property>
-                  <property name="halign">GTK_ALIGN_START</property>
-                  <property name="valign">GTK_ALIGN_START</property>
-                </object>
+                    <object class="GtkLabel" id="score_label">
+                      <property name="label" translatable="yes">Score</property>
+                      <property name="visible">false</property>
+                      <property name="margin-top">5</property>
+                      <property name="margin-start">5</property>
+                      <property name="halign">GTK_ALIGN_START</property>
+                      <property name="valign">GTK_ALIGN_START</property>
+                    </object>
                   </child>
                   <child>
-                <object class="GreadMenu" id="menu_button">
-                  <property name="visible">true</property>
-                  <property name="margin-top">5</property>
-                  <property name="margin-start">5</property>
-                  <property name="halign">GTK_ALIGN_START</property>
-                  <property name="valign">GTK_ALIGN_START</property>
-                </object>
+                    <object class="GreadMenu" id="menu_button">
+                      <property name="visible">true</property>
+                      <property name="margin-top">5</property>
+                      <property name="margin-start">5</property>
+                      <property name="halign">GTK_ALIGN_START</property>
+                      <property name="valign">GTK_ALIGN_START</property>
+                    </object>
                   </child>
                 </object>
               </child>

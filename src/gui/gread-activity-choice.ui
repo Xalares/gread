@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="GreadActivityChoice" parent="GtkWidget">
+    <property name="vexpand">true</property>
+    <property name="vexpand-set">true</property>
     <child>
       <object class="GtkBox" id="activity_box">
         <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
         <property name="valign">GTK_ALIGN_CENTER</property>
         <property name="halign">GTK_ALIGN_CENTER</property>
         <property name="spacing">250</property>
-        <property name="margin-top">175</property>
         <property name="homogeneous">true</property>
         <child>
           <object class="GtkButton" id="random_number_activity_button">
@@ -26,7 +27,7 @@
       </object>
     </child>
     <child>
-      <object class="GreadRandomNumberActivity" id="random_activity">
+      <object class="GreadRandomNumberActivity" id="random_number_activity">
         <property name="visible">false</property>
       </object>
     </child>
