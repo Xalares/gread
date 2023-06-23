@@ -22,6 +22,8 @@ G_DEFINE_TYPE (GreadAppWindow, gread_app_window, ADW_TYPE_APPLICATION_WINDOW)
 static void
 gread_app_window_dispose(GObject *object){
   GreadAppWindow *self = GREAD_APP_WINDOW(object);
+  gtk_widget_unparent(GTK_WIDGET (self->introduction));
+  gtk_widget_unparent (GTK_WIDGET (self->activity_choice));
   gtk_widget_unparent(GTK_WIDGET(self));
   G_OBJECT_CLASS(gread_app_window_parent_class)->dispose(object);
 }
@@ -55,7 +57,6 @@ gread_app_window_init(GreadAppWindow *self){
   gtk_widget_init_template(GTK_WIDGET(self));
   g_signal_connect_swapped(self->introduction, "ok-pressed", G_CALLBACK(gtk_widget_hide), self->introduction);
   g_signal_connect_swapped(self->introduction, "ok-pressed", G_CALLBACK(gtk_widget_show), self->activity_choice);
-
 }
 
 GreadAppWindow *

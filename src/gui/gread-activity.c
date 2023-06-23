@@ -18,9 +18,7 @@ gread_activity_dispose(GObject *object)
 {
   GreadActivity *self;
   self = GREAD_ACTIVITY(object);
-
   gtk_widget_unparent(GTK_WIDGET(self->random_number_activity));
-
   G_OBJECT_CLASS(gread_activity_parent_class)->dispose(object);
 }
 
@@ -37,7 +35,6 @@ gread_activity_class_init(GreadActivityClass *klass)
   GObjectClass *object_class = G_OBJECT_CLASS(klass);
   object_class->dispose = gread_activity_dispose;
   object_class->finalize = gread_activity_finalize;
-
   gtk_widget_class_set_template_from_resource(widget_class,
                                               "/org/gnome/gread/gui/gread-activity.ui");
   gtk_widget_class_bind_template_child(widget_class, GreadActivity, random_number_activity);
